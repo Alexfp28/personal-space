@@ -1,0 +1,317 @@
+@import "tailwindcss/preflight";
+@import "tailwindcss";
+@import "tailwindcss/utilities";
+
+@theme {
+  --color-winter-dark: #0a1929;
+  --color-winter-darker: #051018;
+  --color-winter-mid: #1e3a5f;
+  --color-winter-blue: #2e5984;
+
+  --color-winter-light: #f0f4f8;
+  --color-winter-snow: #ffffff;
+  --color-winter-frost: #e3f2fd;
+
+  --color-aurora-blue: #64b5f6;
+  --color-aurora-cyan: #4fc3f7;
+  --color-aurora-teal: #26c6da;
+  --color-aurora-purple: #b39ddb;
+
+  --color-glass-bg: rgba(30, 58, 95, 0.6);
+  --color-glass-border: rgba(100, 181, 246, 0.2);
+}
+
+/* =============================
+   Estilos Base
+============================== */
+@layer base {
+  body {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+
+  code, pre {
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-aurora-blue) var(--color-winter-darker);
+  }
+}
+
+@layer utilities {
+
+
+  /* ========================================
+   Animación Aurora Boreal
+   ======================================== */
+  .aurora-bg {
+    background: linear-gradient(
+      135deg,
+      var(--color-winter-dark) 0%,
+      var(--color-winter-mid) 25%,
+      var(--color-aurora-purple) 50%,
+      var(--color-winter-blue) 75%,
+      var(--color-winter-dark) 100%
+    );
+    background-size: 400% 400%;
+    animation: aurora 20s ease infinite;
+  }
+
+  @keyframes aurora {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  /* ========================================
+   Animación Copos de Nieve
+   ======================================== */
+  @keyframes snow {
+    0% {
+      transform: translateY(-10vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  .animate-snow {
+    animation: snow linear infinite;
+  }
+
+  /* ========================================
+   Efecto Glassmorphism
+   ======================================== */
+  .glass-effect {
+    background: var(--color-glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--color-glass-border);
+  }
+
+  /* ========================================
+   Scrollbar Personalizado
+   ======================================== */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-winter-darker);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-aurora-blue);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-aurora-cyan);
+  }
+
+  /* ========================================
+   Selección de Texto
+   ======================================== */
+  ::selection {
+    background: var(--color-aurora-blue);
+    color: var(--color-winter-dark);
+  }
+
+  ::-moz-selection {
+    background: var(--color-aurora-blue);
+    color: var(--color-winter-dark);
+  }
+
+  /* ========================================
+   Utilidades Adicionales
+   ======================================== */
+
+  /* Efecto de brillo congelado para bordes */
+  .frost-border {
+    border: 1px solid var(--color-glass-border);
+    box-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .frost-border:hover {
+    box-shadow: 0 0 20px rgba(100, 181, 246, 0.5);
+  }
+
+  /* Hover con efecto de hielo derritiéndose */
+  .melt-hover {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .melt-hover:hover {
+    transform: translateY(-5px);
+    filter: brightness(1.2);
+  }
+
+  /* Sombra tipo escarcha */
+  .ice-shadow {
+    box-shadow: 0 4px 6px rgba(10, 25, 41, 0.2),
+      0 8px 16px rgba(100, 181, 246, 0.1);
+  }
+
+  /* Texto con efecto brillo */
+  .text-glow {
+    text-shadow: 0 0 10px rgba(100, 181, 246, 0.5);
+  }
+
+  /* Botón estilo invernal */
+  .btn-winter {
+    background: linear-gradient(135deg, var(--color-aurora-blue), var(--color-aurora-cyan));
+    color: var(--color-winter-dark);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(100, 181, 246, 0.3);
+  }
+
+  .btn-winter:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(100, 181, 246, 0.5);
+  }
+
+  .btn-winter:active {
+    transform: translateY(0);
+  }
+
+  /* Link con subrayado animado */
+  .link-frost {
+    position: relative;
+    text-decoration: none;
+    color: var(--color-aurora-cyan);
+    transition: color 0.3s ease;
+  }
+
+  .link-frost::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-aurora-blue), var(--color-aurora-cyan));
+    transition: width 0.3s ease;
+  }
+
+  .link-frost:hover::after {
+    width: 100%;
+  }
+
+  /* ========================================
+   Animaciones de Entrada (Scroll Reveal)
+   ======================================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+  }
+
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.6s ease;
+  }
+
+  .reveal-left.active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.6s ease;
+  }
+
+  .reveal-right.active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Badges de tecnología */
+  .tech-badge {
+    @apply px-4 py-2 rounded-full text-sm font-medium 
+           inline-flex items-center gap-2
+           hover:scale-105 transition-transform cursor-default;
+    color: var(--color-winter-light);
+    background: var(--color-glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--color-glass-border);
+  }
+  
+  /* Botón outline */
+  .btn-outline {
+    @apply px-6 py-3 rounded-lg font-semibold
+           border-2 transition-all duration-300;
+    border-color: var(--color-aurora-blue);
+    color: var(--color-aurora-blue);
+  }
+
+  .btn-outline:hover {
+    background: var(--color-aurora-blue);
+    color: var(--color-winter-dark);
+  }
+  
+  /* Links de redes sociales */
+  .social-link {
+    @apply w-12 h-12 rounded-full flex items-center justify-center
+           hover:scale-110 transition-all duration-300;
+    color: var(-color--color-winter-frost);
+    background: var(--color-glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--color-glass-border);
+    box-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .social-link:hover {
+    color: var(--color-aurora-cyan);
+  }
+
+  /* ========================================
+   Responsive
+   ======================================== */
+  @media (max-width: 768px) {
+    .glass-effect {
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    /* Reducir copos de nieve en móvil */
+    .snow-container .snowflake:nth-child(n + 25) {
+      display: none;
+    }
+  }
+}

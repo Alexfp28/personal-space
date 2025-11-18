@@ -1,0 +1,255 @@
+---
+// Página principal del portfolio - Une todos los componentes
+
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Education from '../components/Education.astro';
+import Experience from '../components/Experience.astro';
+import TechStack from '../components/TechStack.astro';
+import Projects from '../components/Projects.astro';
+import Contact from '../components/Contact.astro';
+
+// Datos del portfolio - Personaliza estos datos con tu información
+const portfolioData = {
+  // Información personal
+  personal: {
+    name: "Alex López de la Fuente",
+    title: "Desarrollador Full Stack",
+    subtitle: "Especializado en crear aplicaciones web robustas y escalables con Spring Boot y Angular. Apasionado por el código limpio y las mejores prácticas de desarrollo.",
+    description: "Soy un desarrollador Full Stack con más de 3 años de experiencia construyendo aplicaciones empresariales. Me especializo en el desarrollo backend con Java y Spring Boot, complementado con interfaces modernas en Angular. Me apasiona crear soluciones eficientes que resuelvan problemas reales.",
+    imageUrl: "assets/profile.jpg",
+    email: "alexlopezdelafuente@gmail.com",
+    phone: "+34 665 266 851",
+    location: "Valencia, España",
+  },
+  
+  // Estadísticas
+  stats: [
+    { label: "Años de experiencia", value: "3+", icon: "📅" },
+    { label: "Proyectos completados", value: "15+", icon: "✅" },
+    { label: "Tecnologías", value: "10+", icon: "⚡" },
+    { label: "Cafés consumidos", value: "∞", icon: "☕" }
+  ],
+  
+  // Formación académica
+  education: [
+    {
+      degree: "Ciclo Formativo de Grado Medio en Sistemas Microinformáticos y Redes",
+      institution: "IES Benigasló",
+      period: "2020 - 2022",
+      description: "Gestión e instalación de sistemas informáticos y redes.",
+      achievements: [
+        "Matrícula de honor",
+      ],
+      icon: "🎓"
+    },
+    {
+      degree: "Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Multiplataforma",
+      institution: "IES Benigasló",
+      period: "2022 - 2024",
+      description: "Desarrollo de aplicaciones móviles y de escritorio utilizando tecnologías modernas.",
+      achievements: [
+        "Repositorio del proyecto final: CheapCheeseApp en GitHub"
+      ],
+      icon: "🎓"
+    },
+    {
+      degree: "Máster en Inteligencia Artificial y Big Data",
+      institution: "IES Benigasló",
+      period: "2024 - 2025",
+      description: "Especialización en técnicas de IA y análisis de grandes volúmenes de datos.",
+      achievements: [
+        "Proyecto en el curso: Bot Telegram para el almacenaje de archivos y resúmenes automáticos"
+      ],
+      icon: "🚀"
+    },
+    {
+      degree: "Certificaciones Profesionales",
+      institution: "Plataformas Online",
+      period: "2023 - Presente",
+      description: "Formación continua en tecnologías emergentes",
+      achievements: [
+        "Angular Professional Certification",
+        "Microsoft Certified: Power Apps"
+      ],
+      icon: "📜"
+    }
+  ],
+  
+  // Experiencia laboral
+  experiences: [
+    {
+      position: "Desarrollador Full Stack",
+      company: "ITBacking S.L.",
+      companyUrl: "https://www.itbacking.com",
+      period: "Julio 2024 - Presente",
+      location: "Castellón, España",
+      type: "full-time" as const,
+      description: "Desarrollo de aplicaciones empresariales escalables utilizando arquitecturas modernas",
+      responsibilities: [
+        "Diseño e implementación de microservicios con Spring Boot",
+        "Desarrollo de interfaces reactivas con Angular",
+        "Gestión de bases de datos MySQL y MongoDB",
+        "Gestión de servidores privados con Linux y Docker",
+        "Mentorización de desarrolladores junior",
+        "Desarrollo de nuevas funcionalidades con Inteligencia Artificial"
+      ],
+      technologies: ["Spring Boot", "Angular", "MySQL", "Docker", "Linux", "IA"]
+    },
+    {
+      position: "Desarrollador Backend",
+      company: "ITBacking S.L.",
+      period: "Marzo 2024 - Julio 2024",
+      location: "Castellón, España",
+      type: "full-time" as const,
+      description: "Desarrollo interno de APIs RESTful y servicios backend para aplicaciones web empresariales.",
+      responsibilities: [
+        "Construcción de APIs RESTful con Spring Boot",
+        "Optimización de consultas y rendimiento de bases de datos",
+        "Implementación de autenticación JWT y OAuth2"
+      ],
+      technologies: ["Java", "Spring Boot", "MySQL"]
+    },
+    {
+      position: "Técnico en Sistemas Microinformáticos y Redes",
+      company: "Ayuntamiento de La Vall d'Uixó",
+      period: "Marzo 2022 - Junio 2022",
+      location: "La Vall d'Uixó, Castellón, España",
+      type: "full-time" as const,
+      description: "Gestión y mantenimiento de la infraestructura informática del ayuntamiento.",
+      responsibilities: [
+        "Desarrollo de aplicación para encuestas sobre las consultas recibidas en las oficinas municipales",
+        "Gestión de inventario de hardware y software",
+        "Mantenimiento y migraciones de aplicaciones a servidores Linux",
+      ],
+      technologies: ["Bash", "Linux"]
+    }
+  ],
+  
+  // Stack tecnológico
+  technologies: [
+    // Backend
+    { name: "Java", icon: "☕", category: "backend" as const, proficiency: 90, color: "#f89820" },
+    { name: "Spring Boot", icon: "🍃", category: "backend" as const, proficiency: 95, color: "#6db33f" },
+    { name: "Spring Security", icon: "🔒", category: "backend" as const, proficiency: 85, color: "#6db33f" },
+    
+    // Frontend
+    { name: "Angular", icon: "🅰️", category: "frontend" as const, proficiency: 90, color: "#dd0031" },
+    { name: "TypeScript", icon: "📘", category: "frontend" as const, proficiency: 88, color: "#3178c6" },
+    { name: "RxJS", icon: "🔄", category: "frontend" as const, proficiency: 85, color: "#b7178c" },
+    { name: "HTML/CSS", icon: "🎨", category: "frontend" as const, proficiency: 92, color: "#e34c26" },
+    
+    // Bases de datos
+    { name: "MongoDB", icon: "🍃", category: "database" as const, proficiency: 75, color: "#47a248" },
+    { name: "MySQL", icon: "🐬", category: "database" as const, proficiency: 80, color: "#4479a1" },
+    
+    // Herramientas
+    { name: "Git", icon: "📦", category: "tools" as const, proficiency: 90, color: "#f05032" },
+    { name: "Docker", icon: "🐳", category: "tools" as const, proficiency: 85, color: "#2496ed" },
+    { name: "Maven", icon: "🔨", category: "tools" as const, proficiency: 88, color: "#c71a36" },
+    
+    // Cloud
+    // { name: "AWS", icon: "☁️", category: "cloud" as const, proficiency: 70, color: "#ff9900" },
+    // { name: "Kubernetes", icon: "☸️", category: "cloud" as const, proficiency: 65, color: "#326ce5" },
+  ],
+  
+  // Proyectos
+  projects: [
+    // {
+    //   title: "E-Commerce Platform",
+    //   description: "Plataforma completa de comercio electrónico con gestión de inventario, pagos integrados y panel de administración. Arquitectura de microservicios escalable.",
+    //   image: "/images/projects/ecommerce.jpg",
+    //   technologies: ["Spring Boot", "Angular", "PostgreSQL", "Redis", "Docker"],
+    //   category: "Full Stack",
+    //   demoUrl: "https://demo.example.com",
+    //   githubUrl: "https://github.com/user/ecommerce",
+    //   featured: true
+    // },
+    // {
+    //   title: "Task Management System",
+    //   description: "Sistema de gestión de tareas empresarial con colaboración en tiempo real, notificaciones y reportes avanzados.",
+    //   image: "/images/projects/taskmanager.jpg",
+    //   technologies: ["Spring Boot", "Angular", "MongoDB", "WebSocket"],
+    //   category: "Full Stack",
+    //   demoUrl: "https://demo.example.com",
+    //   featured: true
+    // },
+    // {
+    //   title: "API Gateway Service",
+    //   description: "Gateway centralizado para microservicios con autenticación JWT, rate limiting y balanceo de carga.",
+    //   image: "/images/projects/gateway.jpg",
+    //   technologies: ["Spring Cloud", "Java", "Redis", "Kubernetes"],
+    //   category: "Backend",
+    //   githubUrl: "https://github.com/user/gateway"
+    // },
+    // {
+    //   title: "Analytics Dashboard",
+    //   description: "Dashboard interactivo para visualización de métricas empresariales en tiempo real con gráficos dinámicos.",
+    //   image: "/images/projects/dashboard.jpg",
+    //   technologies: ["Angular", "TypeScript", "Chart.js", "RxJS"],
+    //   category: "Frontend",
+    //   demoUrl: "https://demo.example.com"
+    // },
+    // {
+    //   title: "Booking System",
+    //   description: "Sistema de reservas con calendario interactivo, notificaciones por email y gestión de disponibilidad.",
+    //   image: "/images/projects/booking.jpg",
+    //   technologies: ["Spring Boot", "Angular", "MySQL", "Stripe"],
+    //   category: "Full Stack",
+    //   githubUrl: "https://github.com/user/booking"
+    // },
+    // {
+    //   title: "Chat Application",
+    //   description: "Aplicación de mensajería en tiempo real con salas de chat, compartir archivos y videollamadas.",
+    //   image: "/images/projects/chat.jpg",
+    //   technologies: ["Spring Boot", "WebSocket", "Angular", "MongoDB"],
+    //   category: "Full Stack",
+    //   demoUrl: "https://demo.example.com"
+    // }
+  ]
+};
+---
+
+<Layout title={`${portfolioData.personal.name} - ${portfolioData.personal.title}`}>
+  <!-- Navegación lateral fija -->
+  <Navigation />
+  
+  <!-- Todas las secciones del portfolio -->
+  <main>
+    <Hero 
+      name={portfolioData.personal.name}
+      title={portfolioData.personal.title}
+      subtitle={portfolioData.personal.subtitle}
+    />
+    
+    <About 
+      description={portfolioData.personal.description}
+      imageUrl={portfolioData.personal.imageUrl}
+      stats={portfolioData.stats}
+    />
+    
+    <Education 
+      education={portfolioData.education}
+    />
+    
+    <Experience 
+      experiences={portfolioData.experiences}
+    />
+    
+    <TechStack 
+      technologies={portfolioData.technologies}
+    />
+    
+    <Projects 
+      projects={portfolioData.projects}
+    />
+    
+    <Contact 
+      email={portfolioData.personal.email}
+      phone={portfolioData.personal.phone}
+      location={portfolioData.personal.location}
+    />
+  </main>
+</Layout>

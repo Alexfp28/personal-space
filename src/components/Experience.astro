@@ -1,0 +1,276 @@
+---
+// src/components/Experience.astro
+// Timeline de experiencia laboral con diseño alternado
+
+interface ExperienceItem {
+  position: string;
+  company: string;
+  companyUrl?: string;
+  period: string;
+  location?: string;
+  description: string;
+  responsibilities: string[];
+  technologies: string[];
+  type?: 'full-time' | 'part-time' | 'freelance' | 'internship';
+}
+
+interface Props {
+  experiences: ExperienceItem[];
+}
+
+const { 
+  experiences = [
+    {
+      position: "Desarrollador Full Stack Senior",
+      company: "Tech Solutions S.L.",
+      companyUrl: "https://techsolutions.com",
+      period: "Enero 2023 - Presente",
+      location: "Valencia, España",
+      type: "full-time",
+      description: "Desarrollo de aplicaciones empresariales escalables utilizando arquitecturas modernas",
+      responsibilities: [
+        "Diseño e implementación de microservicios con Spring Boot",
+        "Desarrollo de interfaces reactivas con Angular 17",
+        "Gestión de bases de datos PostgreSQL y MongoDB",
+        "Implementación de CI/CD con Jenkins y Docker",
+        "Mentorización de desarrolladores junior"
+      ],
+      technologies: ["Spring Boot", "Angular", "PostgreSQL", "Docker", "AWS"]
+    },
+    {
+      position: "Desarrollador Backend",
+      company: "Startup Innovation",
+      period: "Junio 2021 - Diciembre 2022",
+      location: "Remoto",
+      type: "full-time",
+      description: "Desarrollo de APIs RESTful y sistemas backend para plataforma SaaS",
+      responsibilities: [
+        "Construcción de APIs RESTful con Spring Boot",
+        "Integración de servicios de terceros (Stripe, SendGrid)",
+        "Optimización de consultas y rendimiento de bases de datos",
+        "Implementación de autenticación JWT y OAuth2"
+      ],
+      technologies: ["Java", "Spring Boot", "MySQL", "Redis", "Kubernetes"]
+    },
+    {
+      position: "Desarrollador Full Stack Junior",
+      company: "Digital Agency",
+      period: "Marzo 2020 - Mayo 2021",
+      location: "Valencia, España",
+      type: "full-time",
+      description: "Desarrollo de aplicaciones web corporativas para diversos clientes",
+      responsibilities: [
+        "Desarrollo de funcionalidades frontend con Angular",
+        "Creación de endpoints backend con Spring",
+        "Participación en reuniones con clientes",
+        "Realización de testing y depuración"
+      ],
+      technologies: ["Angular", "Spring", "TypeScript", "MySQL"]
+    }
+  ]
+} = Astro.props;
+
+// Mapeo de tipos de empleo
+const jobTypeLabels = {
+  'full-time': { label: 'Tiempo completo', color: 'aurora-blue' },
+  'part-time': { label: 'Tiempo parcial', color: 'aurora-cyan' },
+  'freelance': { label: 'Freelance', color: 'aurora-purple' },
+  'internship': { label: 'Prácticas', color: 'aurora-teal' }
+};
+---
+
+<section id="experience" class="relative py-20 lg:py-32 overflow-hidden bg-winter-darker/50">
+  <!-- Decoración de fondo -->
+  <div class="absolute top-1/3 right-0 w-96 h-96 bg-aurora-cyan/5 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-1/3 left-0 w-96 h-96 bg-aurora-purple/5 rounded-full blur-3xl"></div>
+  
+  <div class="container mx-auto px-6 lg:px-20 relative z-10">
+    <!-- Título de sección -->
+    <div class="text-center mb-16 reveal">
+      <span class="text-aurora-cyan text-sm font-semibold tracking-wider uppercase">
+        Trayectoria
+      </span>
+      <h2 class="text-4xl md:text-5xl font-bold mt-2 mb-4">
+        <span class="text-glow">Experiencia Profesional</span>
+      </h2>
+      <div class="w-20 h-1 bg-gradient-to-r from-aurora-blue to-aurora-cyan mx-auto rounded-full"></div>
+      <p class="text-winter-frost/70 mt-4 max-w-2xl mx-auto">
+        Mi recorrido profesional construyendo soluciones innovadoras
+      </p>
+    </div>
+    
+    <!-- Timeline de experiencias -->
+    <div class="max-w-5xl mx-auto relative">
+      <!-- Línea vertical central -->
+      <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 
+                  bg-gradient-to-b from-transparent via-aurora-cyan to-transparent 
+                  md:-translate-x-1/2"></div>
+      
+      <!-- Items de experiencia -->
+      <div class="space-y-16">
+        {experiences.map((exp, index) => (
+          <div class={`reveal relative ${index % 2 === 0 ? 'md:pr-1/2' : 'md:pl-1/2 md:ml-auto'}`}
+               style={`animation-delay: ${index * 0.15}s`}>
+            
+            <!-- Punto en la línea con año -->
+            <div class="absolute top-0 left-0 md:left-1/2 -translate-x-1/2 flex items-center justify-center">
+              <div class="relative">
+                <!-- Círculo principal -->
+                <div class="w-6 h-6 bg-aurora-cyan rounded-full border-4 border-winter-darker 
+                           shadow-[0_0_20px_rgba(79,195,247,0.8)] z-10 relative
+                           hover:scale-125 transition-transform">
+                  <div class="absolute inset-0 rounded-full bg-aurora-cyan/50 animate-ping"></div>
+                </div>
+                
+                <!-- Etiqueta de periodo (solo desktop) -->
+                <div class={`hidden md:block absolute top-1/2 -translate-y-1/2 whitespace-nowrap
+                            ${index % 2 === 0 ? 'left-full ml-8' : 'right-full mr-8'}`}>
+                  <span class="glass-effect px-3 py-1 rounded-full text-xs font-mono text-aurora-cyan">
+                    {exp.period.split(' - ')[0]}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card de experiencia -->
+            <div class={`ml-10 md:ml-0 ${index % 2 === 0 ? 'md:mr-16' : 'md:ml-16'}`}>
+              <div class="glass-effect rounded-2xl p-6 md:p-8 frost-border 
+                          hover:scale-[1.02] transition-all duration-500 
+                          experience-card group relative overflow-hidden">
+                
+                <!-- Efecto de brillo al hover -->
+                <div class="absolute inset-0 bg-gradient-to-br from-aurora-blue/5 to-transparent 
+                           opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                <!-- Header -->
+                <div class="relative z-10">
+                  <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+                    <div class="flex-1">
+                      <h3 class="text-xl md:text-2xl font-bold text-winter-light mb-2 
+                                 group-hover:text-aurora-cyan transition-colors">
+                        {exp.position}
+                      </h3>
+                      <div class="flex items-center gap-2 mb-2">
+                        {exp.companyUrl ? (
+                          <a href={exp.companyUrl} 
+                             target="_blank" 
+                             rel="noopener noreferrer"
+                             class="text-aurora-cyan font-semibold hover:underline inline-flex items-center gap-1">
+                            {exp.company}
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                            </svg>
+                          </a>
+                        ) : (
+                          <span class="text-aurora-cyan font-semibold">{exp.company}</span>
+                        )}
+                      </div>
+                      <div class="flex flex-wrap gap-2 text-sm text-winter-frost/70">
+                        <span class="flex items-center gap-1">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                          </svg>
+                          {exp.period}
+                        </span>
+                        {exp.location && (
+                          <span class="flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            {exp.location}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {exp.type && (
+                      <span class={`glass-effect px-3 py-1 rounded-full text-xs font-semibold 
+                                   text-${jobTypeLabels[exp.type].color} 
+                                   border border-${jobTypeLabels[exp.type].color}/30`}>
+                        {jobTypeLabels[exp.type].label}
+                      </span>
+                    )}
+                  </div>
+                  
+                  <!-- Descripción -->
+                  <p class="text-winter-frost/90 mb-6 leading-relaxed">
+                    {exp.description}
+                  </p>
+                  
+                  <!-- Responsabilidades -->
+                  <div class="mb-6">
+                    <h4 class="text-sm font-semibold text-winter-light mb-3 flex items-center gap-2">
+                      <svg class="w-4 h-4 text-aurora-cyan" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                      </svg>
+                      Responsabilidades
+                    </h4>
+                    <ul class="space-y-2">
+                      {exp.responsibilities.map((resp) => (
+                        <li class="flex items-start gap-2 text-sm text-winter-frost/80">
+                          <svg class="w-4 h-4 text-aurora-cyan flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                          </svg>
+                          <span>{resp}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <!-- Tecnologías utilizadas -->
+                  <div>
+                    <h4 class="text-sm font-semibold text-winter-light mb-3">
+                      Stack tecnológico
+                    </h4>
+                    <div class="flex flex-wrap gap-2">
+                      {exp.technologies.map((tech) => (
+                        <span class="px-3 py-1 bg-winter-mid/50 rounded-full text-xs font-medium 
+                                     text-aurora-cyan border border-aurora-blue/20
+                                     hover:bg-winter-mid hover:scale-105 transition-all cursor-default">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <!-- CTA al final -->
+    <div class="text-center mt-16 reveal" style="animation-delay: 0.8s">
+      <p class="text-winter-frost/70 mb-6">
+        ¿Interesado en trabajar juntos?
+      </p>
+      <a href="#contact" class="btn-winter inline-block">
+        Hablemos de tu proyecto
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Efecto de iluminación al hover en las cards */
+  .experience-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(100, 181, 246, 0.1), transparent);
+    transition: left 0.7s ease;
+  }
+  
+  .experience-card:hover::after {
+    left: 100%;
+  }
+</style>

@@ -1,0 +1,268 @@
+---
+// src/components/TechStack.astro
+// Grid hexagonal de tecnologías con rotación 3D
+
+interface Technology {
+  name: string;
+  icon: string;
+  category: 'backend' | 'frontend' | 'database' | 'tools' | 'cloud';
+  proficiency: number; // 0-100
+  color?: string;
+}
+
+interface Props {
+  technologies: Technology[];
+}
+
+const { 
+  technologies = [
+    // Backend
+    { name: "Java", icon: "☕", category: "backend", proficiency: 90, color: "#f89820" },
+    { name: "Spring Boot", icon: "🍃", category: "backend", proficiency: 95, color: "#6db33f" },
+    { name: "Spring Security", icon: "🔒", category: "backend", proficiency: 85, color: "#6db33f" },
+    { name: "Hibernate", icon: "🗄️", category: "backend", proficiency: 80, color: "#59666c" },
+    
+    // Frontend
+    { name: "Angular", icon: "🅰️", category: "frontend", proficiency: 90, color: "#dd0031" },
+    { name: "TypeScript", icon: "📘", category: "frontend", proficiency: 88, color: "#3178c6" },
+    { name: "RxJS", icon: "🔄", category: "frontend", proficiency: 85, color: "#b7178c" },
+    { name: "HTML/CSS", icon: "🎨", category: "frontend", proficiency: 92, color: "#e34c26" },
+    
+    // Bases de datos
+    { name: "PostgreSQL", icon: "🐘", category: "database", proficiency: 85, color: "#336791" },
+    { name: "MongoDB", icon: "🍃", category: "database", proficiency: 75, color: "#47a248" },
+    { name: "MySQL", icon: "🐬", category: "database", proficiency: 80, color: "#4479a1" },
+    { name: "Redis", icon: "⚡", category: "database", proficiency: 70, color: "#dc382d" },
+    
+    // Herramientas
+    { name: "Git", icon: "📦", category: "tools", proficiency: 90, color: "#f05032" },
+    { name: "Docker", icon: "🐳", category: "tools", proficiency: 85, color: "#2496ed" },
+    { name: "Jenkins", icon: "⚙️", category: "tools", proficiency: 75, color: "#d24939" },
+    { name: "Maven", icon: "🔨", category: "tools", proficiency: 88, color: "#c71a36" },
+    
+    // Cloud
+    { name: "AWS", icon: "☁️", category: "cloud", proficiency: 70, color: "#ff9900" },
+    { name: "Kubernetes", icon: "☸️", category: "cloud", proficiency: 65, color: "#326ce5" },
+  ]
+} = Astro.props;
+
+// Agrupar tecnologías por categoría
+const categories = {
+  backend: { title: "Backend", icon: "🔧", color: "aurora-blue" },
+  frontend: { title: "Frontend", icon: "🎨", color: "aurora-cyan" },
+  database: { title: "Bases de Datos", icon: "💾", color: "aurora-purple" },
+  tools: { title: "Herramientas", icon: "🛠️", color: "aurora-teal" },
+  cloud: { title: "Cloud & DevOps", icon: "☁️", color: "aurora-blue" }
+};
+
+const groupedTechs = technologies.reduce((acc, tech) => {
+  if (!acc[tech.category]) acc[tech.category] = [];
+  acc[tech.category].push(tech);
+  return acc;
+}, {} as Record<string, Technology[]>);
+---
+
+<section id="technologies" class="relative py-20 lg:py-32 overflow-hidden">
+  <!-- Decoración de fondo -->
+  <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-aurora-blue/5 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-aurora-purple/5 rounded-full blur-3xl"></div>
+  
+  <div class="container mx-auto px-6 lg:px-20 relative z-10">
+    <!-- Título de sección -->
+    <div class="text-center mb-16 reveal">
+      <span class="text-aurora-cyan text-sm font-semibold tracking-wider uppercase">
+        Habilidades
+      </span>
+      <h2 class="text-4xl md:text-5xl font-bold mt-2 mb-4">
+        <span class="text-glow">Stack Tecnológico</span>
+      </h2>
+      <div class="w-20 h-1 bg-gradient-to-r from-aurora-blue to-aurora-cyan mx-auto rounded-full"></div>
+      <p class="text-winter-frost/70 mt-4 max-w-2xl mx-auto">
+        Tecnologías y herramientas que domino para crear soluciones robustas
+      </p>
+    </div>
+    
+    <!-- Grid de categorías -->
+    <div class="max-w-7xl mx-auto space-y-12">
+      {Object.entries(groupedTechs).map(([category, techs], catIndex) => (
+        <div class="reveal" style={`animation-delay: ${catIndex * 0.1}s`}>
+          <!-- Título de categoría -->
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-3xl">{categories[category as keyof typeof categories].icon}</span>
+            <h3 class="text-2xl font-bold text-winter-light">
+              {categories[category as keyof typeof categories].title}
+            </h3>
+            <div class="flex-1 h-px bg-gradient-to-r from-aurora-blue/50 to-transparent"></div>
+          </div>
+          
+          <!-- Grid de tecnologías -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {techs.map((tech, techIndex) => (
+              <div 
+                class="tech-card group"
+                style={`animation-delay: ${(catIndex * 0.1) + (techIndex * 0.05)}s`}
+              >
+                <!-- Hexágono con tecnología -->
+                <div class="relative aspect-square flex items-center justify-center">
+                  <!-- Fondo hexagonal -->
+                  <div class="absolute inset-0 hexagon glass-effect frost-border 
+                              group-hover:scale-110 transition-all duration-500"></div>
+                  
+                  <!-- Barra de progreso circular (opcional) -->
+                  <svg class="absolute inset-0 w-full h-full -rotate-90 opacity-30">
+                    <circle
+                      cx="50%"
+                      cy="50%"
+                      r="45%"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="text-winter-frost/20"
+                    />
+                    <circle
+                      cx="50%"
+                      cy="50%"
+                      r="45%"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="text-aurora-cyan transition-all duration-1000"
+                      stroke-dasharray={`${2 * Math.PI * 45}`}
+                      stroke-dashoffset={`${2 * Math.PI * 45 * (1 - tech.proficiency / 100)}`}
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  
+                  <!-- Icono -->
+                  <div class="relative z-10 text-center">
+                    <div class="text-4xl mb-2 group-hover:scale-125 transition-transform duration-300">
+                      {tech.icon}
+                    </div>
+                    <div class="text-xs font-semibold text-winter-light group-hover:text-aurora-cyan 
+                                transition-colors px-2">
+                      {tech.name}
+                    </div>
+                  </div>
+                  
+                  <!-- Tooltip con nivel de proficiencia -->
+                  <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 
+                              opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                              glass-effect px-3 py-1 rounded-full text-xs font-semibold 
+                              text-aurora-cyan border border-aurora-blue/30 whitespace-nowrap
+                              pointer-events-none z-20">
+                    Nivel: {tech.proficiency}%
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    <!-- Sección de especialización -->
+    <div class="mt-20 max-w-4xl mx-auto reveal" style="animation-delay: 0.6s">
+      <div class="glass-effect rounded-2xl p-8 md:p-12 text-center frost-border">
+        <h3 class="text-2xl font-bold text-winter-light mb-4">
+          Mi Especialización
+        </h3>
+        <p class="text-winter-frost/80 mb-6 leading-relaxed">
+          Me especializo en el desarrollo <span class="text-aurora-cyan font-semibold">Full Stack</span> 
+          con énfasis en arquitecturas backend robustas utilizando 
+          <span class="text-aurora-cyan font-semibold">Java y Spring Boot</span>, 
+          complementadas con interfaces frontend modernas en 
+          <span class="text-aurora-cyan font-semibold">Angular</span>. 
+          Mi experiencia incluye diseño de APIs RESTful, microservicios, 
+          gestión de bases de datos y despliegue en entornos cloud.
+        </p>
+        
+        <!-- Estadísticas rápidas -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+          <div class="text-center">
+            <div class="text-3xl font-bold text-aurora-cyan mb-1">10+</div>
+            <div class="text-sm text-winter-frost/70">Tecnologías</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-aurora-cyan mb-1">3+</div>
+            <div class="text-sm text-winter-frost/70">Años experiencia</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-aurora-cyan mb-1">15+</div>
+            <div class="text-sm text-winter-frost/70">Proyectos</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold text-aurora-cyan mb-1">100%</div>
+            <div class="text-sm text-winter-frost/70">Dedicación</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Animar las barras de progreso cuando entran en viewport
+  const techCards = document.querySelectorAll('.tech-card');
+  
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        
+        // Animar el círculo de progreso
+        const circle = entry.target.querySelector('circle:last-child') as SVGCircleElement;
+        if (circle) {
+          setTimeout(() => {
+            circle.style.strokeDashoffset = circle.getAttribute('stroke-dashoffset') || '0';
+          }, 100);
+        }
+      }
+    });
+  }, observerOptions);
+  
+  techCards.forEach(card => observer.observe(card));
+</script>
+
+<style>
+  /* Forma hexagonal */
+  .hexagon {
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+  
+  /* Animación de entrada para tech cards */
+  .tech-card {
+    opacity: 0;
+    transform: translateY(20px) rotateX(20deg);
+    transition: all 0.6s ease;
+  }
+  
+  .tech-card.active {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+  
+  /* Efecto 3D al hover */
+  .tech-card:hover .hexagon {
+    transform: scale(1.1) rotateY(10deg);
+    box-shadow: 0 10px 40px rgba(100, 181, 246, 0.4);
+  }
+  
+  /* Animación de brillo */
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(100, 181, 246, 0.6);
+    }
+  }
+  
+  .tech-card:hover .hexagon {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+</style>

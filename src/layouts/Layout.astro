@@ -1,0 +1,62 @@
+---
+// Layout principal con tema invernal y configuración base
+import '../styles/app.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { 
+  title, 
+  description = "Portfolio de desarrollador Full Stack especializado en Spring Boot y Angular" 
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- SEO Meta Tags -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    
+    <!-- Preload Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    
+    <title>{title}</title>
+  </head>
+  <body class="bg-winter-dark text-winter-light antialiased">
+    <!-- Aurora Background Effect -->
+    <div class="aurora-bg fixed inset-0 -z-10 opacity-30"></div>
+    
+    <!-- Subtle Snow Effect -->
+    <div class="snow-container fixed inset-0 -z-5 pointer-events-none overflow-hidden">
+      {Array.from({ length: 50 }).map((_, i) => (
+        <div 
+          class="snowflake absolute text-winter-light/20 animate-snow"
+          style={`
+            left: ${Math.random() * 100}%;
+            animation-delay: ${Math.random() * 10}s;
+            animation-duration: ${10 + Math.random() * 20}s;
+            font-size: ${10 + Math.random() * 10}px;
+          `}
+        >
+          ❄
+        </div>
+      ))}
+    </div>
+    
+    <!-- Main Content -->
+    <slot />
+  </body>
+  </body>
+</html>

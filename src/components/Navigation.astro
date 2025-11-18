@@ -1,0 +1,208 @@
+---
+// src/components/Navigation.astro
+// Navegación lateral fija con indicadores de sección activa
+
+// Definición de las secciones del portfolio
+const sections = [
+  { id: 'hero', label: 'Inicio', icon: '🏠' },
+  { id: 'about', label: 'Sobre mí', icon: '👤' },
+  { id: 'education', label: 'Formación', icon: '🎓' },
+  { id: 'experience', label: 'Experiencia', icon: '💼' },
+  { id: 'technologies', label: 'Tecnologías', icon: '⚡' },
+  { id: 'projects', label: 'Proyectos', icon: '🚀' },
+  { id: 'contact', label: 'Contacto', icon: '📧' },
+];
+---
+
+<!-- Navegación lateral fija - Solo visible en desktop -->
+<nav class="fixed left-8 top-1/2 -translate-y-1/2 z-50 hidden lg:block">
+  <div class="glass-effect rounded-full p-4 space-y-6">
+    {sections.map((section) => (
+      <a
+        href={`#${section.id}`}
+        data-section={section.id}
+        class="nav-dot group relative flex items-center justify-center w-3 h-3 rounded-full 
+               bg-winter-frost/30 hover:bg-aurora-blue transition-all duration-300 cursor-pointer"
+        aria-label={section.label}
+      >
+        <!-- Indicador de sección activa -->
+        <span class="absolute inset-0 rounded-full bg-aurora-blue scale-0 
+                     group-hover:scale-100 transition-transform duration-300"></span>
+        
+        <!-- Tooltip con el nombre de la sección -->
+        <span class="tooltip absolute left-full ml-4 px-3 py-2 bg-winter-mid rounded-lg 
+                     text-winter-light text-sm font-medium whitespace-nowrap opacity-0 
+                     group-hover:opacity-100 transition-opacity duration-300 pointer-events-none
+                     shadow-ice">
+          <span class="mr-2">{section.icon}</span>
+          {section.label}
+          <!-- Flecha del tooltip -->
+          <span class="absolute right-full top-1/2 -translate-y-1/2 
+                       border-8 border-transparent border-r-winter-mid"></span>
+        </span>
+      </a>
+    ))}
+  </div>
+  
+  <!-- Línea de progreso vertical -->
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-full bg-winter-frost/20 -z-10">
+    <div id="progress-line" class="w-full bg-aurora-blue transition-all duration-300" style="height: 0%"></div>
+  </div>
+</nav>
+
+<!-- Navegación móvil - Bottom navigation -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 lg:hidden">
+  <div class="glass-effect border-t border-winter-frost/10 px-4 py-3">
+    <div class="flex justify-around items-center max-w-lg mx-auto">
+      {sections.slice(0, 5).map((section) => (
+        <a
+          href={`#${section.id}`}
+          data-section={section.id}
+          class="mobile-nav-item flex flex-col items-center gap-1 text-winter-frost/60 
+                 hover:text-aurora-blue transition-colors duration-300 cursor-pointer"
+          aria-label={section.label}
+        >
+          <span class="text-xl">{section.icon}</span>
+          <span class="text-xs font-medium">{section.label.split(' ')[0]}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Script para manejar la navegación y el scroll spy
+  
+  // Función para actualizar el indicador de sección activa
+  function updateActiveSection() {
+    const sections = document.querySelectorAll('section[id]');
+    const navDots = document.querySelectorAll('.nav-dot');
+    const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+    const progressLine = document.getElementById('progress-line');
+    
+    // Obtener la posición del scroll
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    
+    // Calcular el progreso del scroll (0-100%)
+    const scrollProgress = (scrollY / (documentHeight - windowHeight)) * 100;
+    if (progressLine) {
+      progressLine.style.height = `${scrollProgress}%`;
+    }
+    
+    // Encontrar la sección activa
+    let currentSection = '';
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      
+      // Si el scroll está en esta sección (con offset de 200px para activar antes)
+      if (scrollY >= sectionTop - 200) {
+        currentSection = section.getAttribute('id') || '';
+      }
+    });
+    
+    // Actualizar clases activas en navegación desktop
+    navDots.forEach((dot) => {
+      const sectionId = dot.getAttribute('data-section');
+      if (sectionId === currentSection) {
+        dot.classList.add('active');
+        // Escalar el punto activo
+        dot.querySelector('span')?.classList.add('scale-100');
+        dot.querySelector('span')?.classList.remove('scale-0');
+      } else {
+        dot.classList.remove('active');
+        dot.querySelector('span')?.classList.remove('scale-100');
+        dot.querySelector('span')?.classList.add('scale-0');
+      }
+    });
+    
+    // Actualizar clases activas en navegación móvil
+    mobileNavItems.forEach((item) => {
+      const sectionId = item.getAttribute('data-section');
+      if (sectionId === currentSection) {
+        item.classList.add('text-aurora-blue');
+        item.classList.remove('text-winter-frost/60');
+      } else {
+        item.classList.remove('text-aurora-blue');
+        item.classList.add('text-winter-frost/60');
+      }
+    });
+  }
+  
+  // Smooth scroll al hacer click en los enlaces
+  function initSmoothScroll() {
+    const navLinks = document.querySelectorAll('a[href^="#"]');
+    
+    navLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href')?.slice(1);
+        const targetSection = document.getElementById(targetId || '');
+        
+        if (targetSection) {
+          // Scroll suave a la sección
+          targetSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          
+          // Agregar pequeña animación de "pulse" al hacer click
+          link.classList.add('animate-pulse');
+          setTimeout(() => {
+            link.classList.remove('animate-pulse');
+          }, 500);
+        }
+      });
+    });
+  }
+  
+  // Inicializar al cargar la página
+  document.addEventListener('DOMContentLoaded', () => {
+    updateActiveSection();
+    initSmoothScroll();
+  });
+  
+  // Actualizar en cada scroll con throttle para mejor rendimiento
+  let scrollTimeout: number;
+  window.addEventListener('scroll', () => {
+    if (scrollTimeout) {
+      window.cancelAnimationFrame(scrollTimeout);
+    }
+    scrollTimeout = window.requestAnimationFrame(() => {
+      updateActiveSection();
+    });
+  }, { passive: true });
+</script>
+
+<style>  
+  /* Efecto de brillo para el punto activo */
+  .nav-dot.active {
+    box-shadow: 0 0 15px rgba(100, 181, 246, 0.8);
+  }
+  
+  /* Animación sutil de entrada para tooltips */
+  .tooltip {
+    animation: fadeInTooltip 0.3s ease-out;
+  }
+  
+  @keyframes fadeInTooltip {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Ajuste para dispositivos pequeños */
+  @media (max-width: 1024px) {
+    .glass-effect {
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+    }
+  }
+</style>
