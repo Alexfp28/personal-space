@@ -27,8 +27,8 @@ const portfolioData = {
   
   // Estadísticas
   stats: [
-    { label: "Años de experiencia", value: "3+", icon: "📅" },
-    { label: "Proyectos completados", value: "15+", icon: "✅" },
+    { label: "Años de experiencia", value: "2~", icon: "📅" },
+    { label: "Proyectos completados", value: "2+", icon: "✅" },
     { label: "Tecnologías", value: "10+", icon: "⚡" },
     { label: "Cafés consumidos", value: "∞", icon: "☕" }
   ],
@@ -68,11 +68,13 @@ const portfolioData = {
     {
       degree: "Certificaciones Profesionales",
       institution: "Plataformas Online",
-      period: "2023 - Presente",
+      period: "2020 - Presente",
       description: "Formación continua en tecnologías emergentes",
       achievements: [
+        "Nmap Certified",
+        "WhireShark Certified",
         "Angular Professional Certification",
-        "Microsoft Certified: Power Apps"
+        "Microsoft Certified: Power Apps",
       ],
       icon: "📜"
     }
@@ -141,6 +143,9 @@ const portfolioData = {
     { name: "RxJS", icon: "🔄", category: "frontend" as const, proficiency: 85, color: "#b7178c" },
     { name: "HTML/CSS", icon: "🎨", category: "frontend" as const, proficiency: 92, color: "#e34c26" },
     
+    // Scripts
+    // { name: "Python", icon: "🐍", category: "scripts" as const, proficiency: 60, color: "#dd0031" },
+
     // Bases de datos
     { name: "MongoDB", icon: "🍃", category: "database" as const, proficiency: 75, color: "#47a248" },
     { name: "MySQL", icon: "🐬", category: "database" as const, proficiency: 80, color: "#4479a1" },
@@ -157,57 +162,25 @@ const portfolioData = {
   
   // Proyectos
   projects: [
-    // {
-    //   title: "E-Commerce Platform",
-    //   description: "Plataforma completa de comercio electrónico con gestión de inventario, pagos integrados y panel de administración. Arquitectura de microservicios escalable.",
-    //   image: "/images/projects/ecommerce.jpg",
-    //   technologies: ["Spring Boot", "Angular", "PostgreSQL", "Redis", "Docker"],
-    //   category: "Full Stack",
-    //   demoUrl: "https://demo.example.com",
-    //   githubUrl: "https://github.com/user/ecommerce",
-    //   featured: true
-    // },
-    // {
-    //   title: "Task Management System",
-    //   description: "Sistema de gestión de tareas empresarial con colaboración en tiempo real, notificaciones y reportes avanzados.",
-    //   image: "/images/projects/taskmanager.jpg",
-    //   technologies: ["Spring Boot", "Angular", "MongoDB", "WebSocket"],
-    //   category: "Full Stack",
-    //   demoUrl: "https://demo.example.com",
-    //   featured: true
-    // },
-    // {
-    //   title: "API Gateway Service",
-    //   description: "Gateway centralizado para microservicios con autenticación JWT, rate limiting y balanceo de carga.",
-    //   image: "/images/projects/gateway.jpg",
-    //   technologies: ["Spring Cloud", "Java", "Redis", "Kubernetes"],
-    //   category: "Backend",
-    //   githubUrl: "https://github.com/user/gateway"
-    // },
-    // {
-    //   title: "Analytics Dashboard",
-    //   description: "Dashboard interactivo para visualización de métricas empresariales en tiempo real con gráficos dinámicos.",
-    //   image: "/images/projects/dashboard.jpg",
-    //   technologies: ["Angular", "TypeScript", "Chart.js", "RxJS"],
-    //   category: "Frontend",
-    //   demoUrl: "https://demo.example.com"
-    // },
-    // {
-    //   title: "Booking System",
-    //   description: "Sistema de reservas con calendario interactivo, notificaciones por email y gestión de disponibilidad.",
-    //   image: "/images/projects/booking.jpg",
-    //   technologies: ["Spring Boot", "Angular", "MySQL", "Stripe"],
-    //   category: "Full Stack",
-    //   githubUrl: "https://github.com/user/booking"
-    // },
-    // {
-    //   title: "Chat Application",
-    //   description: "Aplicación de mensajería en tiempo real con salas de chat, compartir archivos y videollamadas.",
-    //   image: "/images/projects/chat.jpg",
-    //   technologies: ["Spring Boot", "WebSocket", "Angular", "MongoDB"],
-    //   category: "Full Stack",
-    //   demoUrl: "https://demo.example.com"
-    // }
+    {
+      title: "CheapCheese App",
+      description: "Plataforma dedicada a la comparativa de precios para los quesos más ricos de todos los supermercados.",
+      image: "/images/projects/ecommerce.jpg",
+      technologies: ["Spring Boot", "Vue.js", "Postman", "Docker", "Python"],
+      category: "Full Stack",
+      demoUrl: "https://cheapcheese.github.io",
+      // githubUrl: "https://github.com/user/ecommerce",
+      featured: true
+    },
+    {
+      title: "Aplicación Telegram ChatBot",
+      description: "Aplicación de mensajería en tiempo real con salas de chat, compartir archivos, etc...",
+      image: "/images/projects/chat.jpg",
+      technologies: ["Python", "IA", "Replit"],
+      category: "Especialista en Inteligencia Artificial",
+      // demoUrl: "https://demo.example.com"
+      featured: true
+    }
   ]
 };
 ---
@@ -217,7 +190,7 @@ const portfolioData = {
   <Navigation />
   
   <!-- Todas las secciones del portfolio -->
-  <main>
+  <main class="w-full h-full grid auto-rows-min">
     <Hero 
       name={portfolioData.personal.name}
       title={portfolioData.personal.title}
