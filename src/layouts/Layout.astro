@@ -1,5 +1,6 @@
 ---
 // Layout principal con tema invernal y configuración base
+import ScrollToTop from '../components/util/ScrollToTop.astro';
 import '../styles/app.css';
 
 interface Props {
@@ -57,6 +58,9 @@ const {
     
     <!-- Main Content -->
     <slot />
+    
+    <!-- Scroll-to-Top Button -->
+    <ScrollToTop />
   </body>
   </body>
 </html>

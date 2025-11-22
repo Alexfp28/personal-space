@@ -1,0 +1,144 @@
+---
+// Timeline vertical de formación académica con efecto de descongelamiento
+import EducationalCard from './EducationalCard.astro';
+interface EducationItem {
+  degree: string;
+  institution: string;
+  period: string;
+  description: string;
+  achievements?: string[];
+  icon: string;
+}
+
+interface Props {
+  education: EducationItem[];
+}
+
+const {
+  education = [],
+} = Astro.props;
+---
+
+<article id="education">
+  <section id="header" class="grid grid-cols-3 items-center text-center reveal">
+    <div class="col-start-2 flex justify-center">
+      <span class="uppercase text-aurora-cyan font-semibold text-xl"
+        >Mi camino</span
+      >
+    </div>
+    <div class="col-start-2 flex justify-center">
+      <span class="text-glow bg-linear-to-r from-winter-light via-aurora-cyan to-winter-light bg-clip-text text-transparent">Formación Profesional</span>
+    </div>
+    <div class="col-start-2 flex items-center justify-center gap-2 mb-6">
+      <div class="h-px w-16 bg-linear-to-r from-transparent to-aurora-blue"></div>
+      <div class="w-2 h-2 rounded-full bg-aurora-cyan animate-pulse"></div>
+      <div class="h-px w-16 bg-linear-to-l from-transparent to-aurora-blue"></div>
+    </div>
+    <div class="col-start-2 flex justify-center">
+      <span class="text-winter-frost/80 text-lg max-w-2xl mx-auto">
+        Un recorrido de aprendizaje continuo y crecimiento profesional
+      </span>
+    </div>
+  </section>
+  <section id="timeline" class="grid p-5! gap-5">
+    <!-- Items de formación -->
+    <div class="grid grid-cols-2 grid-rows-2 gap-5">
+      {
+        education.map((item) => (
+          <EducationalCard
+            degree={item.degree}
+            institution={item.institution}
+            period={item.period}
+            description={item.description}
+            achievements={item.achievements}
+            icon={item.icon}
+          />
+        ))
+      }
+    </div>
+  </section>
+</article>
+
+<script>
+  // Animar la línea del timeline al hacer scroll
+  function animateTimeline() {
+    const timeline = document.querySelector(".timeline-line") as HTMLElement;
+    if (!timeline) return;
+
+    const timelineTop = timeline.offsetTop;
+    const timelineHeight = timeline.offsetHeight;
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+
+    // Calcular el porcentaje de scroll visible
+    const scrollProgress = Math.min(
+      Math.max((scrollY + windowHeight - timelineTop) / timelineHeight, 0),
+      1
+    );
+
+    // Aplicar gradiente progresivo
+    timeline.style.background = `linear-gradient(to bottom, 
+      rgba(100, 181, 246, 0.8) 0%, 
+      rgba(79, 195, 247, 1) ${scrollProgress * 100}%, 
+      rgba(100, 181, 246, 0.3) 100%)`;
+  }
+
+  // Ejecutar al hacer scroll
+  window.addEventListener("scroll", animateTimeline, { passive: true });
+  document.addEventListener("DOMContentLoaded", animateTimeline);
+</script>
+
+<style>
+  /* Efecto de descongelamiento al hacer hover */
+  .education-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .education-card::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(
+      circle,
+      rgba(100, 181, 246, 0.1) 0%,
+      transparent 70%
+    );
+    transition: all 0.8s ease;
+    pointer-events: none;
+  }
+
+  .education-card:hover::before {
+    top: -50%;
+    left: -50%;
+  }
+
+  /* Animación del punto en la línea */
+  .timeline-dot {
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      box-shadow: 0 0 15px rgba(100, 181, 246, 0.8);
+    }
+    50% {
+      box-shadow: 0 0 25px rgba(100, 181, 246, 1);
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .timeline-line {
+      left: 0.5rem;
+    }
+
+    .timeline-dot {
+      left: 0.5rem;
+    }
+  }
+</style>

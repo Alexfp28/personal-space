@@ -5,7 +5,7 @@ import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
 import Hero from '../components/Hero.astro';
 import About from '../components/About.astro';
-import Education from '../components/Education.astro';
+import Education from '../components/education/Education.astro';
 import Experience from '../components/Experience.astro';
 import TechStack from '../components/TechStack.astro';
 import Projects from '../components/Projects.astro';
@@ -105,12 +105,13 @@ const portfolioData = {
       company: "ITBacking S.L.",
       period: "Marzo 2024 - Julio 2024",
       location: "Castellón, España",
-      type: "full-time" as const,
+      type: "internship" as const,
       description: "Desarrollo interno de APIs RESTful y servicios backend para aplicaciones web empresariales.",
       responsibilities: [
         "Construcción de APIs RESTful con Spring Boot",
         "Optimización de consultas y rendimiento de bases de datos",
-        "Implementación de autenticación JWT y OAuth2"
+        "Implementación de autenticación JWT y OAuth2",
+        "Programación en compañia con otros desarrolladores",
       ],
       technologies: ["Java", "Spring Boot", "MySQL"]
     },
@@ -119,7 +120,7 @@ const portfolioData = {
       company: "Ayuntamiento de La Vall d'Uixó",
       period: "Marzo 2022 - Junio 2022",
       location: "La Vall d'Uixó, Castellón, España",
-      type: "full-time" as const,
+      type: "internship" as const,
       description: "Gestión y mantenimiento de la infraestructura informática del ayuntamiento.",
       responsibilities: [
         "Desarrollo de aplicación para encuestas sobre las consultas recibidas en las oficinas municipales",

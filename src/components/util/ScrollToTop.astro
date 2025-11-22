@@ -1,0 +1,54 @@
+---
+// Componente de botón flotante para volver al inicio
+---
+<button
+  id="scroll-to-top"
+  class="fixed bottom-8 right-8 z-50 px-4! py-3! rounded-full glass-effect frost-border opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 ice-shadow flex items-center gap-2"
+  aria-label="Volver al inicio"
+>
+  <span class="text-aurora-cyan font-semibold text-sm">Inicio</span>
+  <svg
+    class="w-5 h-5 text-aurora-cyan"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+  </svg>
+</button>
+
+<style>
+  #scroll-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #scroll-to-top:hover {
+    box-shadow: 0 0 20px rgba(100, 181, 246, 0.5);
+  }
+</style>
+
+<script>
+  const scrollBtn = document.getElementById("scroll-to-top");
+
+  // Mostrar/ocultar botón según scroll
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+      scrollBtn?.classList.add("visible");
+    } else {
+      scrollBtn?.classList.remove("visible");
+    }
+  });
+
+  // Scroll suave al inicio
+  scrollBtn?.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  });
+</script>

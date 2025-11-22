@@ -1,6 +1,6 @@
 ---
 // src/components/Experience.astro
-// Timeline de experiencia laboral con diseño alternado
+// Timeline de experiencia laboral con diseño moderno y limpio
 
 interface ExperienceItem {
   position: string;
@@ -11,7 +11,7 @@ interface ExperienceItem {
   description: string;
   responsibilities: string[];
   technologies: string[];
-  type?: 'full-time' | 'part-time' | 'freelance' | 'internship';
+  type?: 'full-time' | 'part-time' | 'internship';
 }
 
 interface Props {
@@ -19,258 +19,248 @@ interface Props {
 }
 
 const { 
-  experiences = [
-    {
-      position: "Desarrollador Full Stack Senior",
-      company: "Tech Solutions S.L.",
-      companyUrl: "https://techsolutions.com",
-      period: "Enero 2023 - Presente",
-      location: "Valencia, España",
-      type: "full-time",
-      description: "Desarrollo de aplicaciones empresariales escalables utilizando arquitecturas modernas",
-      responsibilities: [
-        "Diseño e implementación de microservicios con Spring Boot",
-        "Desarrollo de interfaces reactivas con Angular 17",
-        "Gestión de bases de datos PostgreSQL y MongoDB",
-        "Implementación de CI/CD con Jenkins y Docker",
-        "Mentorización de desarrolladores junior"
-      ],
-      technologies: ["Spring Boot", "Angular", "PostgreSQL", "Docker", "AWS"]
-    },
-    {
-      position: "Desarrollador Backend",
-      company: "Startup Innovation",
-      period: "Junio 2021 - Diciembre 2022",
-      location: "Remoto",
-      type: "full-time",
-      description: "Desarrollo de APIs RESTful y sistemas backend para plataforma SaaS",
-      responsibilities: [
-        "Construcción de APIs RESTful con Spring Boot",
-        "Integración de servicios de terceros (Stripe, SendGrid)",
-        "Optimización de consultas y rendimiento de bases de datos",
-        "Implementación de autenticación JWT y OAuth2"
-      ],
-      technologies: ["Java", "Spring Boot", "MySQL", "Redis", "Kubernetes"]
-    },
-    {
-      position: "Desarrollador Full Stack Junior",
-      company: "Digital Agency",
-      period: "Marzo 2020 - Mayo 2021",
-      location: "Valencia, España",
-      type: "full-time",
-      description: "Desarrollo de aplicaciones web corporativas para diversos clientes",
-      responsibilities: [
-        "Desarrollo de funcionalidades frontend con Angular",
-        "Creación de endpoints backend con Spring",
-        "Participación en reuniones con clientes",
-        "Realización de testing y depuración"
-      ],
-      technologies: ["Angular", "Spring", "TypeScript", "MySQL"]
-    }
-  ]
+  experiences = []
 } = Astro.props;
 
-// Mapeo de tipos de empleo
+// Mapeo de tipos de empleo con colores del tema invernal
 const jobTypeLabels = {
   'full-time': { label: 'Tiempo completo', color: 'aurora-blue' },
   'part-time': { label: 'Tiempo parcial', color: 'aurora-cyan' },
-  'freelance': { label: 'Freelance', color: 'aurora-purple' },
-  'internship': { label: 'Prácticas', color: 'aurora-teal' }
+  // 'freelance': { label: 'Freelance', color: 'aurora-purple' },
+  'internship': { label: 'Prácticas', color: 'aurora-cyan' }
 };
 ---
 
-<section id="experience" class="relative py-20 lg:py-32 overflow-hidden bg-winter-darker/50">
-  <!-- Decoración de fondo -->
-  <div class="absolute top-1/3 right-0 w-96 h-96 bg-aurora-cyan/5 rounded-full blur-3xl"></div>
-  <div class="absolute bottom-1/3 left-0 w-96 h-96 bg-aurora-purple/5 rounded-full blur-3xl"></div>
-  
-  <div class="container mx-auto px-6 lg:px-20 relative z-10">
-    <!-- Título de sección -->
-    <div class="text-center mb-16 reveal">
-      <span class="text-aurora-cyan text-sm font-semibold tracking-wider uppercase">
-        Trayectoria
+<article id="experience">
+  <section id="header" class="grid grid-cols-3 items-center reveal">
+    <!-- Header de la sección -->
+    <div class="text-center mb-20 reveal col-start-2">
+      <span class="uppercase text-aurora-cyan font-semibold text-xl">
+        Mi Trayectoria
       </span>
-      <h2 class="text-4xl md:text-5xl font-bold mt-2 mb-4">
-        <span class="text-glow">Experiencia Profesional</span>
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+        <span class="text-glow bg-linear-to-r from-winter-light via-aurora-cyan to-winter-light bg-clip-text text-transparent">
+          Experiencia Profesional
+        </span>
       </h2>
-      <div class="w-20 h-1 bg-gradient-to-r from-aurora-blue to-aurora-cyan mx-auto rounded-full"></div>
-      <p class="text-winter-frost/70 mt-4 max-w-2xl mx-auto">
-        Mi recorrido profesional construyendo soluciones innovadoras
+      <div class="flex items-center justify-center gap-2 mb-6">
+        <div class="h-px w-16 bg-linear-to-r from-transparent to-aurora-blue"></div>
+        <div class="w-2 h-2 rounded-full bg-aurora-cyan animate-pulse"></div>
+        <div class="h-px w-16 bg-linear-to-l from-transparent to-aurora-blue"></div>
+      </div>
+      <p class="text-winter-frost/80 text-lg max-w-2xl mx-auto">
+        Construyendo soluciones innovadoras y escalables con tecnologías modernas
       </p>
     </div>
-    
-    <!-- Timeline de experiencias -->
-    <div class="max-w-5xl mx-auto relative">
-      <!-- Línea vertical central -->
-      <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 
-                  bg-gradient-to-b from-transparent via-aurora-cyan to-transparent 
-                  md:-translate-x-1/2"></div>
-      
-      <!-- Items de experiencia -->
-      <div class="space-y-16">
-        {experiences.map((exp, index) => (
-          <div class={`reveal relative ${index % 2 === 0 ? 'md:pr-1/2' : 'md:pl-1/2 md:ml-auto'}`}
-               style={`animation-delay: ${index * 0.15}s`}>
+  </section>
+  <section id="info" class="bg-winter-darker p-2!">
+    <!-- Grid de experiencias -->
+    <div class="space-y-12 grid grid-cols-2 box-border gap-5">
+      {experiences.map((exp, index) => (
+        <article 
+          class="reveal relative"
+          style={`animation-delay: ${index * 0.2}s`}
+        >
+          <!-- Card principal -->
+          <div class="glass-effect rounded-3xl overflow-hidden frost-border group hover:scale-[1.01] transition-all duration-500">
+            <!-- Gradiente decorativo superior -->
+            <div class="h-1 bg-linear-to-r from-aurora-blue via-aurora-cyan to-aurora-purple"></div>
             
-            <!-- Punto en la línea con año -->
-            <div class="absolute top-0 left-0 md:left-1/2 -translate-x-1/2 flex items-center justify-center">
-              <div class="relative">
-                <!-- Círculo principal -->
-                <div class="w-6 h-6 bg-aurora-cyan rounded-full border-4 border-winter-darker 
-                           shadow-[0_0_20px_rgba(79,195,247,0.8)] z-10 relative
-                           hover:scale-125 transition-transform">
-                  <div class="absolute inset-0 rounded-full bg-aurora-cyan/50 animate-ping"></div>
-                </div>
-                
-                <!-- Etiqueta de periodo (solo desktop) -->
-                <div class={`hidden md:block absolute top-1/2 -translate-y-1/2 whitespace-nowrap
-                            ${index % 2 === 0 ? 'left-full ml-8' : 'right-full mr-8'}`}>
-                  <span class="glass-effect px-3 py-1 rounded-full text-xs font-mono text-aurora-cyan">
-                    {exp.period.split(' - ')[0]}
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Card de experiencia -->
-            <div class={`ml-10 md:ml-0 ${index % 2 === 0 ? 'md:mr-16' : 'md:ml-16'}`}>
-              <div class="glass-effect rounded-2xl p-6 md:p-8 frost-border 
-                          hover:scale-[1.02] transition-all duration-500 
-                          experience-card group relative overflow-hidden">
-                
-                <!-- Efecto de brillo al hover -->
-                <div class="absolute inset-0 bg-gradient-to-br from-aurora-blue/5 to-transparent 
-                           opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
-                <!-- Header -->
-                <div class="relative z-10">
-                  <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
-                    <div class="flex-1">
-                      <h3 class="text-xl md:text-2xl font-bold text-winter-light mb-2 
-                                 group-hover:text-aurora-cyan transition-colors">
-                        {exp.position}
-                      </h3>
-                      <div class="flex items-center gap-2 mb-2">
-                        {exp.companyUrl ? (
-                          <a href={exp.companyUrl} 
-                             target="_blank" 
-                             rel="noopener noreferrer"
-                             class="text-aurora-cyan font-semibold hover:underline inline-flex items-center gap-1">
-                            {exp.company}
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                            </svg>
-                          </a>
-                        ) : (
-                          <span class="text-aurora-cyan font-semibold">{exp.company}</span>
-                        )}
-                      </div>
-                      <div class="flex flex-wrap gap-2 text-sm text-winter-frost/70">
-                        <span class="flex items-center gap-1">
-                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                          </svg>
-                          {exp.period}
-                        </span>
-                        {exp.location && (
-                          <span class="flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
-                            {exp.location}
-                          </span>
-                        )}
-                      </div>
-                    </div>
+            <div class="p-6! md:p-8 lg:p-10!">
+              <!-- Header del trabajo -->
+              <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6!">
+                <div class="flex-1">
+                  <!-- Título y empresa -->
+                  <div class="mb-4!">
+                    <span class="text-2xl md:text-3xl font-bold text-winter-light mb-3! group-hover:text-aurora-cyan transition-colors duration-300">
+                      {exp.position}
+                    </span>
                     
-                    {exp.type && (
-                      <span class={`glass-effect px-3 py-1 rounded-full text-xs font-semibold 
-                                   text-${jobTypeLabels[exp.type].color} 
-                                   border border-${jobTypeLabels[exp.type].color}/30`}>
-                        {jobTypeLabels[exp.type].label}
-                      </span>
+                    {exp.companyUrl ? (
+                      <a 
+                        href={exp.companyUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 text-lg text-aurora-cyan hover:text-aurora-blue transition-colors group/link"
+                      >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                        <span class="font-semibold">{exp.company}</span>
+                        <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                      </a>
+                    ) : (
+                      <div class="inline-flex items-center gap-2 text-lg text-aurora-cyan">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                        <span class="font-semibold">{exp.company}</span>
+                      </div>
                     )}
                   </div>
                   
-                  <!-- Descripción -->
-                  <p class="text-winter-frost/90 mb-6 leading-relaxed">
-                    {exp.description}
-                  </p>
-                  
-                  <!-- Responsabilidades -->
-                  <div class="mb-6">
-                    <h4 class="text-sm font-semibold text-winter-light mb-3 flex items-center gap-2">
-                      <svg class="w-4 h-4 text-aurora-cyan" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                  <!-- Metadata -->
+                  <div class="flex flex-wrap gap-4 text-winter-frost/70">
+                    <div class="flex items-center gap-2">
+                      <svg class="w-5 h-5 text-aurora-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                       </svg>
-                      Responsabilidades
-                    </h4>
-                    <ul class="space-y-2">
-                      {exp.responsibilities.map((resp) => (
-                        <li class="flex items-start gap-2 text-sm text-winter-frost/80">
-                          <svg class="w-4 h-4 text-aurora-cyan flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                          </svg>
-                          <span>{resp}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  <!-- Tecnologías utilizadas -->
-                  <div>
-                    <h4 class="text-sm font-semibold text-winter-light mb-3">
-                      Stack tecnológico
-                    </h4>
-                    <div class="flex flex-wrap gap-2">
-                      {exp.technologies.map((tech) => (
-                        <span class="px-3 py-1 bg-winter-mid/50 rounded-full text-xs font-medium 
-                                     text-aurora-cyan border border-aurora-blue/20
-                                     hover:bg-winter-mid hover:scale-105 transition-all cursor-default">
-                          {tech}
-                        </span>
-                      ))}
+                      <span class="font-medium">{exp.period}</span>
                     </div>
+                    
+                    {exp.location && (
+                      <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-aurora-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <span class="font-medium">{exp.location}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                <!-- Badge de tipo de trabajo -->
+                {exp.type && (
+                  <div class="lg:ml-4">
+                    <span class={`inline-flex items-center gap-2 px-4! py-2! rounded-full text-sm font-bold glass-effect border-2 border-${jobTypeLabels[exp.type].color}/40 text-${jobTypeLabels[exp.type].color}`}>
+                      <div class={`w-2 h-2 rounded-full bg-${jobTypeLabels[exp.type].color} animate-pulse`}></div>
+                      {jobTypeLabels[exp.type].label}
+                    </span>
+                  </div>
+                )}
+              </div>
+              
+              <!-- Descripción -->
+              <p class="text-winter-frost/90 text-lg leading-relaxed mb-8 border-l-4 border-aurora-blue/30 pl-4">
+                {exp.description}
+              </p>
+              
+              <!-- Grid de responsabilidades y tecnologías -->
+              <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Responsabilidades -->
+                <div>
+                  <span class="text-winter-light font-bold text-lg mb-4! flex items-center gap-2">
+                    <svg class="w-5 h-5 text-aurora-cyan" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                    </svg>
+                    Responsabilidades
+                  </span>
+                  <ul class="space-y-3">
+                    {exp.responsibilities.map((resp) => (
+                      <li class="flex items-start gap-3 group/item">
+                        <div class="shrink-0 mt-1!">
+                          <svg class="w-5 h-5 text-aurora-cyan group-hover/item:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                          </svg>
+                        </div>
+                        <span class="text-winter-frost/85 leading-relaxed">{resp}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <!-- Tecnologías -->
+                <div>
+                  <span class="text-winter-light font-bold text-lg mb-4! flex items-center gap-2">
+                    <svg class="w-5 h-5 text-aurora-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                    </svg>
+                    Stack Tecnológico
+                  </span>
+                  <div class="flex flex-wrap gap-2">
+                    {exp.technologies.map((tech) => (
+                      <span class="tech-badge ice-shadow hover:shadow-lg">
+                        <svg class="w-4 h-4 text-aurora-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
+                        </svg>
+                        {tech}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        ))}
+        </article>
+      ))}
+    </div>
+
+    <!-- CTA Final -->
+      <div class="text-center mt-10! reveal" style="animation-delay: 0.6s">
+        <div class="inline-block glass-effect rounded-2xl p-8! frost-border">
+          <p class="text-winter-frost/90 text-lg mb-6 max-w-md">
+            ¿Te gustaría que trabajáramos juntos en tu próximo proyecto?
+          </p>
+          <a 
+            href="#contact" 
+            class="inline-flex items-center gap-3 px-8! py-4! bg-linear-to-r from-aurora-blue to-aurora-cyan rounded-xl font-bold text-winter-dark hover:scale-105 hover:shadow-2xl transition-all duration-300 ice-shadow"
+          >
+            <span>Hablemos de tu proyecto</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
       </div>
-    </div>
-    
-    <!-- CTA al final -->
-    <div class="text-center mt-16 reveal" style="animation-delay: 0.8s">
-      <p class="text-winter-frost/70 mb-6">
-        ¿Interesado en trabajar juntos?
-      </p>
-      <a href="#contact" class="btn-winter inline-block">
-        Hablemos de tu proyecto
-      </a>
-    </div>
-  </div>
-</section>
+  </section>
+</article>
+
 
 <style>
-  /* Efecto de iluminación al hover en las cards */
-  .experience-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(100, 181, 246, 0.1), transparent);
-    transition: left 0.7s ease;
+  /* Animación de entrada suave */
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
-  .experience-card:hover::after {
-    left: 100%;
+  .reveal {
+    animation: slideInUp 0.8s ease-out forwards;
+    animation-play-state: paused;
+  }
+  
+  .reveal.active {
+    animation-play-state: running;
+  }
+  
+  /* Efecto hover en las cards */
+  article:hover .glass-effect {
+    background: rgba(30, 58, 95, 0.75);
+    box-shadow: 0 20px 40px rgba(100, 181, 246, 0.2);
+  }
+  
+  /* Ajuste responsive para badges */
+  @media (max-width: 640px) {
+    .tech-badge {
+      font-size: 0.8rem;
+      padding: 0.5rem 0.75rem;
+    }
   }
 </style>
+
+<script>
+  // Scroll reveal animation
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, observerOptions);
+  
+  // Observar todos los elementos con clase 'reveal'
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>

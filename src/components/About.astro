@@ -32,10 +32,15 @@ const {
       >
     </div>
     <div class="col-start-2 row-start-2 flex justify-center">
-      <span class="text-lg text-glow">Sobre mi</span>
+      <span class="text-glow bg-linear-to-r from-winter-light via-aurora-cyan to-winter-light bg-clip-text text-transparent">Sobre mi</span>
+    </div>
+    <div class="col-start-2 flex items-center justify-center gap-2 mb-6">
+      <div class="h-px w-16 bg-linear-to-r from-transparent to-aurora-blue"></div>
+      <div class="w-2 h-2 rounded-full bg-aurora-cyan animate-pulse"></div>
+      <div class="h-px w-16 bg-linear-to-l from-transparent to-aurora-blue"></div>
     </div>
   </section>
-  <section id="info" class="grid grid-cols-2 items-center reveal pt-5!">
+  <section id="info" class="grid grid-cols-2 items-center reveal p-5!">
     <div class="col-start-1 flex justify-center">
       <!-- Imagen -->
       <div class="relative glass-effect rounded-2xl p-2 frost-border">
@@ -116,7 +121,7 @@ const {
       </div>
 
       <!-- Grid de estadísticas -->
-      <div id="cardList" class="col-span-2 grid grid-cols-2 gap-3">
+      <div id="cardList" class="col-span-2 grid grid-cols-2 gap-5">
         {
           stats.map((stat) => (
             <div

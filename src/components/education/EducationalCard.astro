@@ -1,0 +1,184 @@
+---
+/**
+ * Componente EducationCard
+ * 
+ * Props:
+ * @param {string} degree - Título del curso/certificación
+ * @param {string} institution - Institución donde se realizó
+ * @param {string} period - Duración del curso (ej: "2020 - 2022")
+ * @param {string} description - Descripción breve del curso
+ * @param {string[]} achievements - Array de logros/proyectos (opcional)
+ * @param {string} icon - Emoji o icono representativo
+ */
+
+interface Props {
+  degree: string;
+  institution: string;
+  period: string;
+  description: string;
+  achievements?: string[];
+  icon: string;
+}
+
+const { degree, institution, period, description, achievements, icon } = Astro.props;
+---
+
+<article class="education-card glass-effect rounded-2xl p-6 md:p-8 ice-shadow 
+               hover:scale-[1.02] transition-all duration-300 group">
+  
+  <!-- Header con icono y período -->
+  <div class="flex items-start justify-between mb-4">
+    <!-- Icono animado -->
+    <div class="icon-container shrink-0 w-14 h-14 md:w-16 md:h-16 
+                rounded-2xl flex items-center justify-center text-3xl md:text-4xl
+                frost-border group-hover:scale-110 transition-transform duration-300"
+         style="background: var(--color-glass-bg);">
+      {icon}
+    </div>
+    
+    <!-- Período -->
+    <span class="text-sm md:text-base font-medium px-4! py-1.5! rounded-full"
+          style="color: var(--color-aurora-cyan); 
+                 background: rgba(79, 195, 247, 0.1);
+                 border: 1px solid rgba(79, 195, 247, 0.2);">
+      {period}
+    </span>
+  </div>
+
+  <!-- Título del curso -->
+  <span class="text-xl md:text-2xl font-bold mb-2 text-glow pl-2!"
+      style="color: var(--color-winter-frost);">
+    {degree}
+  </span>
+
+  <!-- Institución -->
+  <p class="text-base md:text-lg font-medium mb-3 pl-2!"
+     style="color: var(--color-aurora-blue);">
+    {institution}
+  </p>
+
+  <!-- Descripción -->
+  <p class="text-sm md:text-base leading-relaxed mb-4 pl-2!"
+     style="color: var(--color-winter-light); opacity: 0.9;">
+    {description}
+  </p>
+
+  <!-- Logros/Proyectos (condicional) -->
+  {achievements && achievements.length > 0 && (
+    <div class="achievements-section mt-5 pt-5 border-t"
+         style="border-color: var(--color-glass-border);">
+      <span class="text-sm font-semibold mb-3 flex items-center gap-2 pl-2!"
+          style="color: var(--color-aurora-purple);">
+        <span class="text-lg">✨</span>
+        Logros y Proyectos
+      </span>
+      
+      <ul class="space-y-2 pl-2!">
+        {achievements.map((achievement) => (
+          <li class="flex items-start gap-3 text-sm group/item">
+            <!-- Bullet point animado -->
+            <span class="shrink-0 w-1.5 h-1.5 rounded-full mt-2 
+                         group-hover/item:scale-150 transition-transform"
+                  style="background: var(--color-aurora-cyan);
+                         box-shadow: 0 0 8px var(--color-aurora-cyan);">
+            </span>
+            
+            <!-- Texto del logro -->
+            <span class="leading-relaxed group-hover/item:translate-x-1 transition-transform"
+                  style="color: var(--color-winter-light);">
+              {achievement}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <!-- Indicador de hover (línea brillante en la parte inferior) -->
+  <div class="hover-indicator h-1 w-0 group-hover:w-full 
+              transition-all duration-500 ease-out mt-6 rounded-full"
+       style="background: linear-gradient(90deg, 
+              var(--color-aurora-blue), 
+              var(--color-aurora-cyan), 
+              var(--color-aurora-teal));">
+  </div>
+</article>
+
+<style>
+  /* Animación sutil de entrada */
+  .education-card {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Efecto de brillo en el icono al hover */
+  .icon-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .icon-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle,
+      rgba(100, 181, 246, 0.2) 0%,
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .education-card:hover .icon-container::before {
+    opacity: 1;
+  }
+
+  /* Efecto de shimmer en el título */
+  .text-glow {
+    position: relative;
+    background: linear-gradient(
+      90deg,
+      var(--color-winter-frost) 0%,
+      var(--color-aurora-cyan) 50%,
+      var(--color-winter-frost) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+  }
+
+  @keyframes shimmer {
+    to {
+      background-position: 200% center;
+    }
+  }
+
+  /* Responsive: ajustes para móviles */
+  @media (max-width: 640px) {
+    .education-card {
+      padding: 1.25rem;
+    }
+    
+    .icon-container {
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.5rem;
+    }
+  }
+</style>
