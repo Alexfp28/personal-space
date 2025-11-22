@@ -1,5 +1,5 @@
 ---
-// src/components/About.astro
+import HeaderInfo from './util/HeaderInfo.astro';
 // Sección de información personal con diseño invernal
 
 interface Props {
@@ -25,21 +25,10 @@ const {
 ---
 
 <article id="about">
-  <section id="header" class="grid grid-cols-3 grid-rows-2 items-center reveal">
-    <div class="col-start-2 row-start-1 flex justify-center">
-      <span class="uppercase text-aurora-cyan font-semibold text-xl"
-        >Conóceme</span
-      >
-    </div>
-    <div class="col-start-2 row-start-2 flex justify-center">
-      <span class="text-glow bg-linear-to-r from-winter-light via-aurora-cyan to-winter-light bg-clip-text text-transparent">Sobre mi</span>
-    </div>
-    <div class="col-start-2 flex items-center justify-center gap-2 mb-6">
-      <div class="h-px w-16 bg-linear-to-r from-transparent to-aurora-blue"></div>
-      <div class="w-2 h-2 rounded-full bg-aurora-cyan animate-pulse"></div>
-      <div class="h-px w-16 bg-linear-to-l from-transparent to-aurora-blue"></div>
-    </div>
-  </section>
+  <HeaderInfo 
+    title="Sobre mi" 
+    subtitle="Conóceme un poco más" 
+  />
   <section id="info" class="grid grid-cols-2 items-center reveal p-5!">
     <div class="col-start-1 flex justify-center">
       <!-- Imagen -->

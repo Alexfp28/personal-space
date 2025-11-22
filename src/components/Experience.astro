@@ -1,5 +1,6 @@
 ---
-// src/components/Experience.astro
+import HeaderInfo from './util/HeaderInfo.astro';
+
 // Timeline de experiencia laboral con diseño moderno y limpio
 
 interface ExperienceItem {
@@ -32,27 +33,11 @@ const jobTypeLabels = {
 ---
 
 <article id="experience">
-  <section id="header" class="grid grid-cols-3 items-center reveal">
-    <!-- Header de la sección -->
-    <div class="text-center mb-20 reveal col-start-2">
-      <span class="uppercase text-aurora-cyan font-semibold text-xl">
-        Mi Trayectoria
-      </span>
-      <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-        <span class="text-glow bg-linear-to-r from-winter-light via-aurora-cyan to-winter-light bg-clip-text text-transparent">
-          Experiencia Profesional
-        </span>
-      </h2>
-      <div class="flex items-center justify-center gap-2 mb-6">
-        <div class="h-px w-16 bg-linear-to-r from-transparent to-aurora-blue"></div>
-        <div class="w-2 h-2 rounded-full bg-aurora-cyan animate-pulse"></div>
-        <div class="h-px w-16 bg-linear-to-l from-transparent to-aurora-blue"></div>
-      </div>
-      <p class="text-winter-frost/80 text-lg max-w-2xl mx-auto">
-        Construyendo soluciones innovadoras y escalables con tecnologías modernas
-      </p>
-    </div>
-  </section>
+  <HeaderInfo 
+    title="Experiencia" 
+    subtitle="Mi camino profesional" 
+    description="Un recorrido de aprendizaje continuo y crecimiento profesional"
+  />
   <section id="info" class="bg-winter-darker p-2!">
     <!-- Grid de experiencias -->
     <div class="space-y-12 grid grid-cols-2 box-border gap-5">

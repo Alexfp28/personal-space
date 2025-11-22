@@ -1,5 +1,6 @@
 ---
 // Timeline vertical de formación académica con efecto de descongelamiento
+import HeaderInfo from '../util/HeaderInfo.astro';
 import EducationalCard from './EducationalCard.astro';
 interface EducationItem {
   degree: string;
@@ -20,26 +21,11 @@ const {
 ---
 
 <article id="education">
-  <section id="header" class="grid grid-cols-3 items-center text-center reveal">
-    <div class="col-start-2 flex justify-center">
-      <span class="uppercase text-aurora-cyan font-semibold text-xl"
-        >Mi camino</span
-      >
-    </div>
-    <div class="col-start-2 flex justify-center">
-      <span class="text-glow bg-linear-to-r from-winter-light via-aurora-cyan to-winter-light bg-clip-text text-transparent">Formación Profesional</span>
-    </div>
-    <div class="col-start-2 flex items-center justify-center gap-2 mb-6">
-      <div class="h-px w-16 bg-linear-to-r from-transparent to-aurora-blue"></div>
-      <div class="w-2 h-2 rounded-full bg-aurora-cyan animate-pulse"></div>
-      <div class="h-px w-16 bg-linear-to-l from-transparent to-aurora-blue"></div>
-    </div>
-    <div class="col-start-2 flex justify-center">
-      <span class="text-winter-frost/80 text-lg max-w-2xl mx-auto">
-        Un recorrido de aprendizaje continuo y crecimiento profesional
-      </span>
-    </div>
-  </section>
+  <HeaderInfo 
+    title="Educación" 
+    subtitle="Formación académica" 
+    description="Aprendizaje contínuo y adquisición de conocimientos"
+  />
   <section id="timeline" class="grid p-5! gap-5">
     <!-- Items de formación -->
     <div class="grid grid-cols-2 grid-rows-2 gap-5">
