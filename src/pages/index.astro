@@ -8,8 +8,9 @@ import About from '../components/About.astro';
 import Education from '../components/education/Education.astro';
 import Experience from '../components/Experience.astro';
 import TechStack from '../components/TechStack.astro';
-import Projects from '../components/Projects.astro';
 import Contact from '../components/Contact.astro';
+import * as simpleIcons from 'simple-icons';
+import type { Technology } from '../types/technology';
 
 // Datos del portfolio - Personaliza estos datos con tu información
 const portfolioData = {
@@ -134,27 +135,26 @@ const portfolioData = {
   // Stack tecnológico
   technologies: [
     // Backend
-    { name: "Java", icon: "☕", category: "backend" as const, proficiency: 90, color: "#f89820" },
-    { name: "Spring Boot", icon: "🍃", category: "backend" as const, proficiency: 95, color: "#6db33f" },
-    { name: "Spring Security", icon: "🔒", category: "backend" as const, proficiency: 85, color: "#6db33f" },
+    { name: "Java", icon: simpleIcons.siOpenjdk.svg, category: "backend" as const, proficiency: 90, color: `#${simpleIcons.siOpenjdk.hex}`},
+    { name: "Spring Boot", icon: simpleIcons.siSpring.svg, category: "backend" as const, proficiency: 95, color: `#${simpleIcons.siSpring.hex}`},
+    // { name: "Spring Security", icon: simpleIcons.siAdblock.svg, category: "backend" as const, proficiency: 85, color: simpleIcons.siAdblock.hex },
     
     // Frontend
-    { name: "Angular", icon: "🅰️", category: "frontend" as const, proficiency: 90, color: "#dd0031" },
-    { name: "TypeScript", icon: "📘", category: "frontend" as const, proficiency: 88, color: "#3178c6" },
-    { name: "RxJS", icon: "🔄", category: "frontend" as const, proficiency: 85, color: "#b7178c" },
-    { name: "HTML/CSS", icon: "🎨", category: "frontend" as const, proficiency: 92, color: "#e34c26" },
+    { name: "Angular", icon: simpleIcons.siAngular.svg, category: "frontend" as const, proficiency: 80, color: `#${simpleIcons.siAngular.hex}`},
+    { name: "TypeScript", icon: simpleIcons.siTypescript.svg, category: "frontend" as const, proficiency: 80, color: `#${simpleIcons.siTypescript.hex}`},
+    { name: "HTML/CSS", icon: simpleIcons.siHtml5.svg, category: "frontend" as const, proficiency: 90, color: `#${simpleIcons.siHtml5.hex}`},
     
     // Scripts
-    // { name: "Python", icon: "🐍", category: "scripts" as const, proficiency: 60, color: "#dd0031" },
+    { name: "Python", icon: simpleIcons.siPython.svg, category: "scripts" as const, proficiency: 60, color: `#${simpleIcons.siPython.hex}`},
 
     // Bases de datos
-    { name: "MongoDB", icon: "🍃", category: "database" as const, proficiency: 75, color: "#47a248" },
-    { name: "MySQL", icon: "🐬", category: "database" as const, proficiency: 80, color: "#4479a1" },
+    { name: "MongoDB", icon: simpleIcons.siMongodb.svg, category: "database" as const, proficiency: 75, color: `#${simpleIcons.siMongodb.hex}`},
+    { name: "MySQL", icon: simpleIcons.siMysql.svg, category: "database" as const, proficiency: 75, color: `#${simpleIcons.siMysql.hex}`},
     
     // Herramientas
-    { name: "Git", icon: "📦", category: "tools" as const, proficiency: 90, color: "#f05032" },
-    { name: "Docker", icon: "🐳", category: "tools" as const, proficiency: 85, color: "#2496ed" },
-    { name: "Maven", icon: "🔨", category: "tools" as const, proficiency: 88, color: "#c71a36" },
+    { name: "Git", icon: simpleIcons.siGit.svg, category: "tools" as const, proficiency: 90, color: `#${simpleIcons.siGit.hex}`},
+    { name: "Docker", icon: simpleIcons.siDocker.svg, category: "tools" as const, proficiency: 70, color: `#${simpleIcons.siDocker.hex}`},
+    { name: "Maven", icon: simpleIcons.siApachemaven.svg, category: "tools" as const, proficiency: 70, color: `#${simpleIcons.siApachemaven.hex}`},
     
     // Cloud
     // { name: "AWS", icon: "☁️", category: "cloud" as const, proficiency: 70, color: "#ff9900" },
@@ -162,27 +162,27 @@ const portfolioData = {
   ],
   
   // Proyectos
-  projects: [
-    {
-      title: "CheapCheese App",
-      description: "Plataforma dedicada a la comparativa de precios para los quesos más ricos de todos los supermercados.",
-      image: "/images/projects/ecommerce.jpg",
-      technologies: ["Spring Boot", "Vue.js", "Postman", "Docker", "Python"],
-      category: "Full Stack",
-      demoUrl: "https://cheapcheese.github.io",
-      // githubUrl: "https://github.com/user/ecommerce",
-      featured: true
-    },
-    {
-      title: "Aplicación Telegram ChatBot",
-      description: "Aplicación de mensajería en tiempo real con salas de chat, compartir archivos, etc...",
-      image: "/images/projects/chat.jpg",
-      technologies: ["Python", "IA", "Replit"],
-      category: "Especialista en Inteligencia Artificial",
-      // demoUrl: "https://demo.example.com"
-      featured: true
-    }
-  ]
+  // projects: [
+  //   {
+  //     title: "CheapCheese App",
+  //     description: "Plataforma dedicada a la comparativa de precios para los quesos más ricos de todos los supermercados.",
+  //     image: "/images/projects/ecommerce.jpg",
+  //     technologies: ["Spring Boot", "Vue.js", "Postman", "Docker", "Python"],
+  //     category: "Full Stack",
+  //     demoUrl: "https://cheapcheese.github.io",
+  //     // githubUrl: "https://github.com/user/ecommerce",
+  //     featured: true
+  //   },
+  //   {
+  //     title: "Aplicación Telegram ChatBot",
+  //     description: "Aplicación de mensajería en tiempo real con salas de chat, compartir archivos, etc...",
+  //     image: "/images/projects/chat.jpg",
+  //     technologies: ["Python", "IA", "Replit"],
+  //     category: "Especialista en Inteligencia Artificial",
+  //     // demoUrl: "https://demo.example.com"
+  //     featured: true
+  //   }
+  // ]
 };
 ---
 
@@ -213,12 +213,12 @@ const portfolioData = {
     />
     
     <TechStack 
-      technologies={portfolioData.technologies}
+      technologies={portfolioData.technologies as Technology[]}
     />
     
-    <Projects 
+    <!-- <Projects 
       projects={portfolioData.projects}
-    />
+    /> -->
     
     <Contact 
       email={portfolioData.personal.email}

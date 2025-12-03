@@ -1,268 +1,654 @@
 ---
-// src/components/TechStack.astro
-// Grid hexagonal de tecnologías con rotación 3D
+import type { Technology } from '../types/technology';
+import HeaderInfo from './util/HeaderInfo.astro';
 
-interface Technology {
-  name: string;
-  icon: string;
-  category: 'backend' | 'frontend' | 'database' | 'tools' | 'cloud';
-  proficiency: number; // 0-100
-  color?: string;
-}
+/**
+ * Componente de galería de tecnologías con efecto de constelación.
+ * Las tecnologías se muestran como nodos interconectados con líneas animadas.
+ */
 
 interface Props {
   technologies: Technology[];
 }
 
-const { 
-  technologies = [
-    // Backend
-    { name: "Java", icon: "☕", category: "backend", proficiency: 90, color: "#f89820" },
-    { name: "Spring Boot", icon: "🍃", category: "backend", proficiency: 95, color: "#6db33f" },
-    { name: "Spring Security", icon: "🔒", category: "backend", proficiency: 85, color: "#6db33f" },
-    { name: "Hibernate", icon: "🗄️", category: "backend", proficiency: 80, color: "#59666c" },
-    
-    // Frontend
-    { name: "Angular", icon: "🅰️", category: "frontend", proficiency: 90, color: "#dd0031" },
-    { name: "TypeScript", icon: "📘", category: "frontend", proficiency: 88, color: "#3178c6" },
-    { name: "RxJS", icon: "🔄", category: "frontend", proficiency: 85, color: "#b7178c" },
-    { name: "HTML/CSS", icon: "🎨", category: "frontend", proficiency: 92, color: "#e34c26" },
-    
-    // Bases de datos
-    { name: "PostgreSQL", icon: "🐘", category: "database", proficiency: 85, color: "#336791" },
-    { name: "MongoDB", icon: "🍃", category: "database", proficiency: 75, color: "#47a248" },
-    { name: "MySQL", icon: "🐬", category: "database", proficiency: 80, color: "#4479a1" },
-    { name: "Redis", icon: "⚡", category: "database", proficiency: 70, color: "#dc382d" },
-    
-    // Herramientas
-    { name: "Git", icon: "📦", category: "tools", proficiency: 90, color: "#f05032" },
-    { name: "Docker", icon: "🐳", category: "tools", proficiency: 85, color: "#2496ed" },
-    { name: "Jenkins", icon: "⚙️", category: "tools", proficiency: 75, color: "#d24939" },
-    { name: "Maven", icon: "🔨", category: "tools", proficiency: 88, color: "#c71a36" },
-    
-    // Cloud
-    { name: "AWS", icon: "☁️", category: "cloud", proficiency: 70, color: "#ff9900" },
-    { name: "Kubernetes", icon: "☸️", category: "cloud", proficiency: 65, color: "#326ce5" },
-  ]
-} = Astro.props;
+const { technologies = [] } = Astro.props;
 
-// Agrupar tecnologías por categoría
-const categories = {
-  backend: { title: "Backend", icon: "🔧", color: "aurora-blue" },
-  frontend: { title: "Frontend", icon: "🎨", color: "aurora-cyan" },
-  database: { title: "Bases de Datos", icon: "💾", color: "aurora-purple" },
-  tools: { title: "Herramientas", icon: "🛠️", color: "aurora-teal" },
-  cloud: { title: "Cloud & DevOps", icon: "☁️", color: "aurora-blue" }
-};
-
-const groupedTechs = technologies.reduce((acc, tech) => {
-  if (!acc[tech.category]) acc[tech.category] = [];
-  acc[tech.category].push(tech);
-  return acc;
-}, {} as Record<string, Technology[]>);
+// Separar tecnologías por nivel de dominio
+const masteredTechs = technologies.filter(tech => tech.proficiency >= 80);
+const knownTechs = technologies.filter(tech => tech.proficiency < 80);
 ---
 
-<section id="technologies" class="relative py-20 lg:py-32 overflow-hidden">
-  <!-- Decoración de fondo -->
-  <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-aurora-blue/5 rounded-full blur-3xl"></div>
-  <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-aurora-purple/5 rounded-full blur-3xl"></div>
+<article id="technologies">
+  <HeaderInfo 
+    title="Tecnologías" 
+    subtitle="Mi Stack Tecnológico" 
+  />
   
-  <div class="container mx-auto px-6 lg:px-20 relative z-10">
-    <!-- Título de sección -->
-    <div class="text-center mb-16 reveal">
-      <span class="text-aurora-cyan text-sm font-semibold tracking-wider uppercase">
-        Habilidades
-      </span>
-      <h2 class="text-4xl md:text-5xl font-bold mt-2 mb-4">
-        <span class="text-glow">Stack Tecnológico</span>
-      </h2>
-      <div class="w-20 h-1 bg-gradient-to-r from-aurora-blue to-aurora-cyan mx-auto rounded-full"></div>
-      <p class="text-winter-frost/70 mt-4 max-w-2xl mx-auto">
-        Tecnologías y herramientas que domino para crear soluciones robustas
-      </p>
-    </div>
-    
-    <!-- Grid de categorías -->
-    <div class="max-w-7xl mx-auto space-y-12">
-      {Object.entries(groupedTechs).map(([category, techs], catIndex) => (
-        <div class="reveal" style={`animation-delay: ${catIndex * 0.1}s`}>
-          <!-- Título de categoría -->
-          <div class="flex items-center gap-3 mb-6">
-            <span class="text-3xl">{categories[category as keyof typeof categories].icon}</span>
-            <h3 class="text-2xl font-bold text-winter-light">
-              {categories[category as keyof typeof categories].title}
-            </h3>
-            <div class="flex-1 h-px bg-gradient-to-r from-aurora-blue/50 to-transparent"></div>
+  <section class="pt-5!">
+    <!-- Sección: Tecnologías Dominadas -->
+    {masteredTechs.length > 0 && (
+      <div class="reveal">
+        <!-- Título de la sección -->
+        <div class="flex items-center justify-center gap-4">
+          <div class="h-px w-16 bg-linear-to-r from-transparent to-aurora-cyan"></div>
+          <div class="flex items-center gap-3 px-6! py-3! glass-effect rounded-full">
+            <span class="text-2xl">⚡</span>
+            <span class="text-lg font-bold text-winter-light">Dominadas</span>
+            <span class="text-xs text-aurora-cyan font-semibold px-3! py-1! bg-aurora-cyan/20 rounded-full">
+              80%+
+            </span>
           </div>
+          <div class="h-px w-16 bg-linear-to-l from-transparent to-aurora-cyan"></div>
+        </div>
+
+        <!-- Canvas para líneas de conexión -->
+        <div class="relative">
+          <canvas 
+            id="mastered-canvas" 
+            class="constellation-canvas"
+            aria-hidden="true"
+          ></canvas>
           
           <!-- Grid de tecnologías -->
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {techs.map((tech, techIndex) => (
+          <div class="tech-grid" id="mastered-grid">
+            {masteredTechs.map((tech, index) => (
               <div 
-                class="tech-card group"
-                style={`animation-delay: ${(catIndex * 0.1) + (techIndex * 0.05)}s`}
+                class="tech-node group" 
+                data-tech-id={`mastered-${index}`}
+                data-proficiency={tech.proficiency}
+                data-color="cyan"
               >
-                <!-- Hexágono con tecnología -->
-                <div class="relative aspect-square flex items-center justify-center">
-                  <!-- Fondo hexagonal -->
-                  <div class="absolute inset-0 hexagon glass-effect frost-border 
-                              group-hover:scale-110 transition-all duration-500"></div>
-                  
-                  <!-- Barra de progreso circular (opcional) -->
-                  <svg class="absolute inset-0 w-full h-full -rotate-90 opacity-30">
+                <!-- Círculo de progreso animado -->
+                <div class="progress-ring">
+                  <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
+                    <!-- Círculo de fondo -->
                     <circle
-                      cx="50%"
-                      cy="50%"
-                      r="45%"
+                      cx="60"
+                      cy="60"
+                      r="54"
                       fill="none"
                       stroke="currentColor"
                       stroke-width="2"
-                      class="text-winter-frost/20"
+                      class="text-aurora-cyan/20"
                     />
+                    <!-- Círculo de progreso -->
                     <circle
-                      cx="50%"
-                      cy="50%"
-                      r="45%"
+                      cx="60"
+                      cy="60"
+                      r="54"
                       fill="none"
                       stroke="currentColor"
-                      stroke-width="2"
-                      class="text-aurora-cyan transition-all duration-1000"
-                      stroke-dasharray={`${2 * Math.PI * 45}`}
-                      stroke-dashoffset={`${2 * Math.PI * 45 * (1 - tech.proficiency / 100)}`}
+                      stroke-width="3"
+                      class="text-aurora-cyan progress-circle"
+                      stroke-dasharray={`${2 * Math.PI * 54}`}
+                      stroke-dashoffset={`${2 * Math.PI * 54 * (1 - tech.proficiency / 100)}`}
                       stroke-linecap="round"
                     />
                   </svg>
-                  
-                  <!-- Icono -->
-                  <div class="relative z-10 text-center">
-                    <div class="text-4xl mb-2 group-hover:scale-125 transition-transform duration-300">
-                      {tech.icon}
-                    </div>
-                    <div class="text-xs font-semibold text-winter-light group-hover:text-aurora-cyan 
-                                transition-colors px-2">
-                      {tech.name}
-                    </div>
+                </div>
+
+                <!-- Contenido del nodo -->
+                <div class="node-content">
+                  <div class="tech-icon-wrapper" style={`--tech-color: ${tech.color}`}>
+                    <Fragment set:html={tech.icon} />
                   </div>
+                  <span class="tech-name">{tech.name}</span>
                   
-                  <!-- Tooltip con nivel de proficiencia -->
-                  <div class="absolute -bottom-12 left-1/2 -translate-x-1/2 
-                              opacity-0 group-hover:opacity-100 transition-opacity duration-300
-                              glass-effect px-3 py-1 rounded-full text-xs font-semibold 
-                              text-aurora-cyan border border-aurora-blue/30 whitespace-nowrap
-                              pointer-events-none z-20">
-                    Nivel: {tech.proficiency}%
+                  <!-- Badge de nivel -->
+                  <div class="proficiency-badge proficiency-cyan">
+                    {tech.proficiency}%
                   </div>
+
+                  <!-- Pulso animado al hacer hover -->
+                  <div class="pulse-ring pulse-cyan"></div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      ))}
-    </div>
-    
-    <!-- Sección de especialización -->
-    <div class="mt-20 max-w-4xl mx-auto reveal" style="animation-delay: 0.6s">
-      <div class="glass-effect rounded-2xl p-8 md:p-12 text-center frost-border">
-        <h3 class="text-2xl font-bold text-winter-light mb-4">
-          Mi Especialización
-        </h3>
-        <p class="text-winter-frost/80 mb-6 leading-relaxed">
-          Me especializo en el desarrollo <span class="text-aurora-cyan font-semibold">Full Stack</span> 
-          con énfasis en arquitecturas backend robustas utilizando 
-          <span class="text-aurora-cyan font-semibold">Java y Spring Boot</span>, 
-          complementadas con interfaces frontend modernas en 
-          <span class="text-aurora-cyan font-semibold">Angular</span>. 
-          Mi experiencia incluye diseño de APIs RESTful, microservicios, 
-          gestión de bases de datos y despliegue en entornos cloud.
-        </p>
-        
-        <!-- Estadísticas rápidas -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-          <div class="text-center">
-            <div class="text-3xl font-bold text-aurora-cyan mb-1">10+</div>
-            <div class="text-sm text-winter-frost/70">Tecnologías</div>
+      </div>
+    )}
+
+    <!-- Sección: Tecnologías en Desarrollo -->
+    {knownTechs.length > 0 && (
+      <div class="reveal">
+        <!-- Título de la sección -->
+        <div class="flex items-center justify-center gap-4">
+          <div class="h-px w-16 bg-linear-to-r from-transparent to-aurora-purple"></div>
+          <div class="flex items-center gap-3 px-6! py-3! glass-effect rounded-full">
+            <span class="text-2xl">🎯</span>
+            <span class="text-lg font-bold text-winter-light">En Desarrollo</span>
+            <span class="text-xs text-aurora-purple font-semibold px-3! py-1! bg-aurora-purple/20 rounded-full">
+              {"<80%"}
+            </span>
           </div>
-          <div class="text-center">
-            <div class="text-3xl font-bold text-aurora-cyan mb-1">3+</div>
-            <div class="text-sm text-winter-frost/70">Años experiencia</div>
-          </div>
-          <div class="text-center">
-            <div class="text-3xl font-bold text-aurora-cyan mb-1">15+</div>
-            <div class="text-sm text-winter-frost/70">Proyectos</div>
-          </div>
-          <div class="text-center">
-            <div class="text-3xl font-bold text-aurora-cyan mb-1">100%</div>
-            <div class="text-sm text-winter-frost/70">Dedicación</div>
+          <div class="h-px w-16 bg-linear-to-l from-transparent to-aurora-purple"></div>
+        </div>
+
+        <!-- Canvas para líneas de conexión -->
+        <div class="relative">
+          <canvas 
+            id="known-canvas" 
+            class="constellation-canvas"
+            aria-hidden="true"
+          ></canvas>
+          
+          <!-- Grid de tecnologías -->
+          <div class="tech-grid" id="known-grid">
+            {knownTechs.map((tech, index) => (
+              <div 
+                class="tech-node group" 
+                data-tech-id={`known-${index}`}
+                data-proficiency={tech.proficiency}
+                data-color="purple"
+              >
+                <!-- Círculo de progreso animado -->
+                <div class="progress-ring">
+                  <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
+                    <!-- Círculo de fondo -->
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="54"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      class="text-aurora-purple/20"
+                    />
+                    <!-- Círculo de progreso -->
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="54"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                      class="text-aurora-purple progress-circle"
+                      stroke-dasharray={`${2 * Math.PI * 54}`}
+                      stroke-dashoffset={`${2 * Math.PI * 54 * (1 - tech.proficiency / 100)}`}
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </div>
+
+                <!-- Contenido del nodo -->
+                <div class="node-content">
+                  <div class="tech-icon-wrapper" style={`--tech-color: ${tech.color}`}>
+                    <Fragment set:html={tech.icon} />
+                  </div>
+                  <span class="tech-name">{tech.name}</span>
+                  
+                  <!-- Badge de nivel -->
+                  <div class="proficiency-badge proficiency-purple">
+                    {tech.proficiency}%
+                  </div>
+
+                  <!-- Pulso animado al hacer hover -->
+                  <div class="pulse-ring pulse-purple"></div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    )}
+  </section>
+</article>
 
 <script>
-  // Animar las barras de progreso cuando entran en viewport
-  const techCards = document.querySelectorAll('.tech-card');
-  
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px'
-  };
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-        
-        // Animar el círculo de progreso
-        const circle = entry.target.querySelector('circle:last-child') as SVGCircleElement;
-        if (circle) {
-          setTimeout(() => {
-            circle.style.strokeDashoffset = circle.getAttribute('stroke-dashoffset') || '0';
-          }, 100);
+  /**
+   * Sistema de conexiones entre nodos tipo constelación
+   */
+  interface NodePosition {
+    x: number;
+    y: number;
+    element: HTMLElement;
+  }
+
+  class ConstellationCanvas {
+    private canvas: HTMLCanvasElement;
+    private ctx: CanvasRenderingContext2D;
+    private nodes: NodePosition[] = [];
+    private animationId: number | null = null;
+    private color: string;
+
+    constructor(canvasId: string, gridId: string, color: 'cyan' | 'purple') {
+      this.canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+      if (!this.canvas) return;
+
+      this.ctx = this.canvas.getContext('2d')!;
+      this.color = color === 'cyan' ? '79, 195, 247' : '179, 157, 219'; // RGB de aurora-cyan/purple
+      
+      this.init(gridId);
+      this.setupEventListeners();
+      this.animate();
+    }
+
+    /**
+     * Inicializa el canvas y calcula posiciones de nodos
+     */
+    private init(gridId: string): void {
+      this.resize();
+      this.calculateNodePositions(gridId);
+    }
+
+    /**
+     * Ajusta el tamaño del canvas al contenedor
+     */
+    private resize(): void {
+      const parent = this.canvas.parentElement!;
+      this.canvas.width = parent.offsetWidth;
+      this.canvas.height = parent.offsetHeight;
+    }
+
+    /**
+     * Calcula las posiciones centrales de cada nodo
+     */
+    private calculateNodePositions(gridId: string): void {
+      const grid = document.getElementById(gridId);
+      if (!grid) return;
+
+      const nodeElements = grid.querySelectorAll('.tech-node') as NodeListOf<HTMLElement>;
+      const canvasRect = this.canvas.getBoundingClientRect();
+
+      this.nodes = Array.from(nodeElements).map(element => {
+        const rect = element.getBoundingClientRect();
+        return {
+          x: rect.left + rect.width / 2 - canvasRect.left,
+          y: rect.top + rect.height / 2 - canvasRect.top,
+          element
+        };
+      });
+    }
+
+    /**
+     * Dibuja líneas entre nodos cercanos
+     */
+    private drawConnections(): void {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+      // Distancia máxima para conectar nodos (en píxeles)
+      const maxDistance = 250;
+
+      for (let i = 0; i < this.nodes.length; i++) {
+        for (let j = i + 1; j < this.nodes.length; j++) {
+          const nodeA = this.nodes[i];
+          const nodeB = this.nodes[j];
+
+          const distance = Math.sqrt(
+            Math.pow(nodeB.x - nodeA.x, 2) + 
+            Math.pow(nodeB.y - nodeA.y, 2)
+          );
+
+          // Solo conectar si están lo suficientemente cerca
+          if (distance < maxDistance) {
+            const opacity = (1 - distance / maxDistance) * 0.3;
+            
+            // Aumentar opacidad si algún nodo está en hover
+            const isHovered = nodeA.element.matches(':hover') || nodeB.element.matches(':hover');
+            const finalOpacity = isHovered ? opacity * 3 : opacity;
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(nodeA.x, nodeA.y);
+            this.ctx.lineTo(nodeB.x, nodeB.y);
+            this.ctx.strokeStyle = `rgba(${this.color}, ${finalOpacity})`;
+            this.ctx.lineWidth = isHovered ? 2 : 1;
+            this.ctx.stroke();
+          }
         }
       }
-    });
-  }, observerOptions);
-  
-  techCards.forEach(card => observer.observe(card));
+    }
+
+    /**
+     * Loop de animación
+     */
+    private animate(): void {
+      this.drawConnections();
+      this.animationId = requestAnimationFrame(() => this.animate());
+    }
+
+    /**
+     * Configura listeners para eventos
+     */
+    private setupEventListeners(): void {
+      // Recalcular en resize
+      window.addEventListener('resize', () => {
+        this.resize();
+        this.calculateNodePositions(
+          this.canvas.id.replace('-canvas', '-grid')
+        );
+      });
+
+      // Recalcular al hacer scroll (por si el layout cambia)
+      let scrollTimeout: number;
+      window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          this.calculateNodePositions(
+            this.canvas.id.replace('-canvas', '-grid')
+          );
+        }, 100) as unknown as number;
+      });
+    }
+
+    /**
+     * Limpia la animación
+     */
+    public destroy(): void {
+      if (this.animationId) {
+        cancelAnimationFrame(this.animationId);
+      }
+    }
+  }
+
+  /**
+   * Inicialización de efectos de scroll reveal
+   */
+  function initScrollReveal(): void {
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    revealElements.forEach((el) => revealObserver.observe(el));
+  }
+
+  /**
+   * Inicialización al cargar el DOM
+   */
+  document.addEventListener('DOMContentLoaded', () => {
+    // Iniciar canvases de constelación
+    new ConstellationCanvas('mastered-canvas', 'mastered-grid', 'cyan');
+    new ConstellationCanvas('known-canvas', 'known-grid', 'purple');
+
+    // Iniciar efectos de reveal
+    initScrollReveal();
+  });
 </script>
 
 <style>
-  /* Forma hexagonal */
-  .hexagon {
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  /* ========================================
+     Grid de tecnologías
+     ======================================== */
+  .tech-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    z-index: 10;
   }
-  
-  /* Animación de entrada para tech cards */
-  .tech-card {
-    opacity: 0;
-    transform: translateY(20px) rotateX(20deg);
-    transition: all 0.6s ease;
+
+  /* ========================================
+     Canvas de constelación (fondo)
+     ======================================== */
+  .constellation-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
   }
-  
-  .tech-card.active {
+
+  /* ========================================
+     Nodo de tecnología
+     ======================================== */
+
+  .tech-node {
+    position: relative;
+    aspect-ratio: 1;
+    min-height: 160px;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .tech-node:hover .tech-icon-wrapper {
+    transform: scale(1.15) translateY(-4px);
+  }
+
+  /* Añadir brillo al SVG en hover */
+  .tech-node:hover .tech-icon-wrapper :global(svg) {
+    filter: brightness(1.2);
+  }
+
+  /* ========================================
+     Anillo de progreso
+     ======================================== */
+  .progress-ring {
+    position: absolute;
+    inset: 0;
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+
+  .tech-node:hover .progress-ring {
     opacity: 1;
-    transform: translateY(0) rotateX(0deg);
   }
-  
-  /* Efecto 3D al hover */
-  .tech-card:hover .hexagon {
-    transform: scale(1.1) rotateY(10deg);
-    box-shadow: 0 10px 40px rgba(100, 181, 246, 0.4);
+
+  /* Animación del círculo de progreso */
+  .progress-circle {
+    transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
-  /* Animación de brillo */
-  @keyframes glow-pulse {
+
+  /* ========================================
+     Contenido del nodo
+     ======================================== */
+  .node-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    background: rgba(30, 58, 95, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(100, 181, 246, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+
+  .tech-node:hover .node-content {
+    background: rgba(30, 58, 95, 0.7);
+    border-color: rgba(100, 181, 246, 0.5);
+    box-shadow: 
+      0 12px 24px rgba(100, 181, 246, 0.2),
+      inset 0 0 20px rgba(100, 181, 246, 0.1);
+  }
+
+  /* Variante purple */
+  .tech-node[data-color="purple"] .node-content {
+    border-color: rgba(179, 157, 219, 0.2);
+  }
+
+  .tech-node[data-color="purple"]:hover .node-content {
+    border-color: rgba(179, 157, 219, 0.5);
+    box-shadow: 
+      0 12px 24px rgba(179, 157, 219, 0.2),
+      inset 0 0 20px rgba(179, 157, 219, 0.1);
+  }
+
+  /* ========================================
+     Icono de tecnología
+     ======================================== */
+     /* ========================================
+   Icono de tecnología
+   ======================================== */
+.tech-icon-wrapper {
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Fuerza el color del SVG usando la variable CSS */
+.tech-icon-wrapper :global(svg) {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: all 0.3s ease;
+  fill: var(--tech-color);
+  color: var(--tech-color);
+}
+
+/* Resetea cualquier path interno que pueda tener fill por defecto */
+.tech-icon-wrapper :global(svg) :global(path) {
+  fill: inherit;
+  stroke: inherit;
+}
+
+.tech-node:hover .tech-icon-wrapper {
+  transform: scale(1.15) translateY(-4px);
+}
+
+  /* ========================================
+     Nombre de tecnología
+     ======================================== */
+  .tech-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--color-winter-light);
+    line-height: 1.2;
+    transition: color 0.3s ease;
+  }
+
+  .tech-node:hover .tech-name {
+    color: var(--color-winter-snow);
+  }
+
+  /* ========================================
+     Badge de proficiency
+     ======================================== */
+  .proficiency-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  .proficiency-cyan {
+    background: rgba(79, 195, 247, 0.9);
+    color: var(--color-winter-dark);
+    box-shadow: 0 0 10px rgba(79, 195, 247, 0.4);
+  }
+
+  .proficiency-purple {
+    background: rgba(179, 157, 219, 0.9);
+    color: var(--color-winter-dark);
+    box-shadow: 0 0 10px rgba(179, 157, 219, 0.4);
+  }
+
+  .tech-node:hover .proficiency-badge {
+    transform: scale(1.1);
+  }
+
+  /* ========================================
+     Efecto de pulso al hover
+     ======================================== */
+  .pulse-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 1.25rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .pulse-cyan {
+    box-shadow: 0 0 0 4px rgba(79, 195, 247, 0.3);
+    animation: pulse-cyan 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .pulse-purple {
+    box-shadow: 0 0 0 4px rgba(179, 157, 219, 0.3);
+    animation: pulse-purple 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .tech-node:hover .pulse-ring {
+    opacity: 1;
+  }
+
+  @keyframes pulse-cyan {
     0%, 100% {
-      box-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
+      box-shadow: 0 0 0 0 rgba(79, 195, 247, 0.4);
     }
     50% {
-      box-shadow: 0 0 20px rgba(100, 181, 246, 0.6);
+      box-shadow: 0 0 0 12px rgba(79, 195, 247, 0);
     }
   }
-  
-  .tech-card:hover .hexagon {
-    animation: glow-pulse 2s ease-in-out infinite;
+
+  @keyframes pulse-purple {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(179, 157, 219, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 12px rgba(179, 157, 219, 0);
+    }
+  }
+
+  /* ========================================
+     Responsive
+     ======================================== */
+  @media (max-width: 768px) {
+    .tech-grid {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1.5rem;
+      padding: 1rem;
+    }
+
+    .tech-node {
+      min-height: 140px;
+    }
+
+    .tech-name {
+      font-size: 0.8rem;
+    }
+
+    .node-content {
+      padding: 1rem;
+    }
+
+    .tech-icon-wrapper {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .tech-grid {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .tech-node {
+      min-height: 120px;
+    }
+
+    .tech-icon-wrapper {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
   }
 </style>
